@@ -1,0 +1,30 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.pdb
+*.obj
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+bin/
+obj/
+
+# Packages
+packages/
+*.nupkg
+
+# Resharper
+*.resharper
+*.dotSettings
+
+# Rider
+.idea/
+
+# Mac
+.DS_Store
+
+# My Project Specific
+WpfApp1/bin/
+WpfApp1/obj/
