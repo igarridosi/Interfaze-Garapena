@@ -1,0 +1,11 @@
+<Window x:Class="WpfApp3.SecondWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Resultado" Height="200" Width="300">
+    <Grid>
+        <Label Content="Resultado" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0"/>
+        <TextBox Name="TxtResultado" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,40,0,0" Width="260"/>
+        <Button Content="Limpiar" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,80,0,0" Width="100" Click="BtnLimpiar_Click"/>
+        <Button Content="Salir" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="120,80,0,0" Width="100" Click="BtnSalir_Click"/>
+    </Grid>
+</Window>
