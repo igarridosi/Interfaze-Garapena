@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace WpfApp5
+namespace WpfApp5._1
 {
     /// <summary>
     /// Interaction logic for App.xaml
