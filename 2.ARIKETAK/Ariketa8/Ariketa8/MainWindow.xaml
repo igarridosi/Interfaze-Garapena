@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <TextBox HorizontalAlignment="Center" Margin="0,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,186,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBlock HorizontalAlignment="Left" Margin="42,92,0,0" TextWrapping="Wrap" Text="Orain" VerticalAlignment="Top" Height="22" Width="140"/>
+        <TextBlock HorizontalAlignment="Left" Margin="42,136,0,0" TextWrapping="Wrap" Text="Gaur" VerticalAlignment="Top" Height="22" Width="140"/>
+        <TextBlock HorizontalAlignment="Left" Margin="42,186,0,0" TextWrapping="Wrap" Text="Gaurko ordua" VerticalAlignment="Top" Height="22" Width="140"/>
+        <TextBlock HorizontalAlignment="Left" Margin="42,238,0,0" TextWrapping="Wrap" Text="Daten gehiketa" VerticalAlignment="Top" Height="22" Width="140"/>
+        <TextBlock HorizontalAlignment="Left" Margin="42,285,0,0" TextWrapping="Wrap" Text="Daten desberdintasuna" VerticalAlignment="Top" Height="22" Width="140"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,238,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox HorizontalAlignment="Center" Margin="0,285,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
 
     </Grid>
 </Window>
