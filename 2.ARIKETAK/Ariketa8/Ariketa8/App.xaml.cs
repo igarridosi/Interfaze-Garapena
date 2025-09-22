@@ -9,6 +9,7 @@ namespace Ariketa8
     /// </summary>
     public partial class App : Application
     {
+
     }
 
 }

@@ -7,16 +7,19 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <TextBox HorizontalAlignment="Center" Margin="0,92,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
-        <TextBox HorizontalAlignment="Center" Margin="0,136,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
-        <TextBox HorizontalAlignment="Center" Margin="0,186,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox x:Name="OrainTextBox" HorizontalAlignment="Center" Margin="0,92,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox x:Name="GaurTextBox" HorizontalAlignment="Center" Margin="0,136,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox x:Name="GaurkoOrduaTextBox" HorizontalAlignment="Center" Margin="0,186,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="388" Height="22"/>
         <TextBlock HorizontalAlignment="Left" Margin="42,92,0,0" TextWrapping="Wrap" Text="Orain" VerticalAlignment="Top" Height="22" Width="140"/>
         <TextBlock HorizontalAlignment="Left" Margin="42,136,0,0" TextWrapping="Wrap" Text="Gaur" VerticalAlignment="Top" Height="22" Width="140"/>
         <TextBlock HorizontalAlignment="Left" Margin="42,186,0,0" TextWrapping="Wrap" Text="Gaurko ordua" VerticalAlignment="Top" Height="22" Width="140"/>
         <TextBlock HorizontalAlignment="Left" Margin="42,238,0,0" TextWrapping="Wrap" Text="Daten gehiketa" VerticalAlignment="Top" Height="22" Width="140"/>
         <TextBlock HorizontalAlignment="Left" Margin="42,285,0,0" TextWrapping="Wrap" Text="Daten desberdintasuna" VerticalAlignment="Top" Height="22" Width="140"/>
-        <TextBox HorizontalAlignment="Center" Margin="0,238,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
-        <TextBox HorizontalAlignment="Center" Margin="0,285,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox x:Name="SumaFechasTextBox" HorizontalAlignment="Center" Margin="0,238,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="388" Height="22"/>
+        <TextBox x:Name="DiferenciaFechasTextBox" HorizontalAlignment="Center" Margin="0,285,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="388" Height="22"/>
+        <Button Content="Ejecutar" HorizontalAlignment="Left" Margin="103,352,0,0" VerticalAlignment="Top" Width="123" Click="Button_Click"/>
+        <Button Content="Limpiar" HorizontalAlignment="Left" Margin="309,352,0,0" VerticalAlignment="Top" Width="123" Click="Limpiar_Click"/>
+        <Button Content="Salir" HorizontalAlignment="Left" Margin="518,352,0,0" VerticalAlignment="Top" Width="123" Click="Salir_Click"/>
 
     </Grid>
 </Window>

@@ -1,7 +1,7 @@
 ﻿<Window x:Class="WpfApp7.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Calculadora" Height="350" Width="300">
+        Title="Kalkulagailua" Height="350" Width="300">
     <Grid>
         <!-- TextBox-a emaitza erakusteko -->
         <TextBox Name="ResultBox" HorizontalAlignment="Stretch" VerticalAlignment="Top" Height="50" FontSize="20" Text="0" IsReadOnly="True" Background="Yellow"/>
