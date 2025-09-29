@@ -1,0 +1,34 @@
+﻿<Window x:Class="Ariketa10.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Ariketa10"
+        mc:Ignorable="d"
+        Title="Visualizar imagenes" Height="450" Width="800">
+    <Grid Background="LightGray">
+        <TextBlock Text="MIS IMAGENES" FontSize="28" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,20,0,0"/>
+        
+        <TextBlock Text="1ª Fila" FontWeight="Bold" Margin="40,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <ComboBox x:Name="comboImagenes" Width="120" Height="25" Margin="40,110,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" SelectionChanged="comboImagenes_SelectionChanged">
+            <ComboBoxItem Content="Imagen 1"/>
+            <ComboBoxItem Content="Imagen 2"/>
+            <ComboBoxItem Content="Imagen 3"/>
+        </ComboBox>
+        <!-- Aldatu absolute path-a -->
+        <Image x:Name="img1" Source="D:\Disenu\3.ARIKETAK\Ariketa10\Ariketa10\img\irudi1.jpg" Width="150" Height="120" Margin="200,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+        <Image x:Name="img2" Source="D:\Disenu\3.ARIKETAK\Ariketa10\Ariketa10\img\irudi2.jpg" Width="150" Height="120" Margin="370,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+        <Image x:Name="img3" Source="D:\Disenu\3.ARIKETAK\Ariketa10\Ariketa10\img\irudi3.jpg" Width="150" Height="120" Margin="540,80,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+        
+        <TextBlock Text="2ª Fila" FontWeight="Bold" Margin="40,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <StackPanel Orientation="Vertical" Margin="40,280,0,0" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <CheckBox x:Name="chkImg4" Content="Imagen 4" Checked="chkImg_Checked" Unchecked="chkImg_Checked"/>
+            <CheckBox x:Name="chkImg5" Content="Imagen 5" Checked="chkImg_Checked" Unchecked="chkImg_Checked"/>
+            <CheckBox x:Name="chkImg6" Content="Imagen 6" Checked="chkImg_Checked" Unchecked="chkImg_Checked"/>
+        </StackPanel>
+        <Image x:Name="img4" Source="D:\Disenu\3.ARIKETAK\Ariketa10\Ariketa10\img\irudi4.jpg" Width="150" Height="120" Margin="200,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+        <Image x:Name="img5" Source="D:\Disenu\3.ARIKETAK\Ariketa10\Ariketa10\img\irudi5.jpg" Width="150" Height="120" Margin="370,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+        <Image x:Name="img6" Source="D:\Disenu\3.ARIKETAK\Ariketa10\Ariketa10\img\irudi6.jpg" Width="150" Height="120" Margin="540,250,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed"/>
+        <Button Content="SALIR" Width="70" Height="24" Margin="40,386,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Salir_Click"/>
+    </Grid>
+</Window>
