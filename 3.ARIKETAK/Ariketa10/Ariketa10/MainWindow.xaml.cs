@@ -19,10 +19,10 @@ namespace Ariketa10
         public MainWindow()
         {
             InitializeComponent();
-            comboImagenes.SelectedIndex = -1; // Ninguna seleccionada al inicio
+            comboImagenes.SelectedIndex = -1; // Ez erakutri irudiak hasieran
         }
 
-        // ComboBox: mostrar solo la imagen seleccionada
+        // ComboBox
         private void comboImagenes_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             img1.Visibility = Visibility.Collapsed;
@@ -43,7 +43,7 @@ namespace Ariketa10
             }
         }
 
-        // CheckBox: mostrar/ocultar imágenes según selección
+        // CheckBox
         private void chkImg_Checked(object sender, RoutedEventArgs e)
         {
             img4.Visibility = chkImg4.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
@@ -51,7 +51,7 @@ namespace Ariketa10
             img6.Visibility = chkImg6.IsChecked == true ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        // Botón Salir
+        
         private void Salir_Click(object sender, RoutedEventArgs e)
         {
             Close();
