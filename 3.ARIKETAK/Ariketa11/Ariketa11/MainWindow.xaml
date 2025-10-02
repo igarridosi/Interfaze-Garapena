@@ -17,8 +17,8 @@
         <TextBox HorizontalAlignment="Left" Margin="231,174,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"  x:Name="apellido2"/>
         <TextBox HorizontalAlignment="Left" Margin="231,215,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="226"  x:Name="dni"/>
         
-        <Button Content="Aceptar" HorizontalAlignment="Left" Height="27" Margin="111,275,0,0" VerticalAlignment="Top" Width="89"/>
-        <Button Content="Cargar y Visualizar" HorizontalAlignment="Left" Height="27" Margin="249,275,0,0" VerticalAlignment="Top" Width="107" Click="Button_Click"/>
+        <Button Content="Aceptar" HorizontalAlignment="Left" Height="27" Margin="111,275,0,0" VerticalAlignment="Top" Width="89" Click="accept"/>
+        <Button Content="Cargar y Visualizar" HorizontalAlignment="Left" Height="27" Margin="249,275,0,0" VerticalAlignment="Top" Width="107" Click="visualize"/>
         <Button Content="Salir" HorizontalAlignment="Left" Height="27" Margin="400,275,0,0" VerticalAlignment="Top" Width="89"/>
 
     </Grid>

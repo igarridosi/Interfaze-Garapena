@@ -16,24 +16,49 @@ namespace Ariketa11
     /// </summary>
     public partial class MainWindow : Window
     {
+        private string[] savedData;
+
+        string data1;
+        string data2;
+        string data3;
+        string data4;
+
         public MainWindow()
         {
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void accept(object sender, RoutedEventArgs e)
         {
-            string data1 = nombre.Text;
-            string data2 = apellido1.Text;
-            string data3 = apellido2.Text;
-            string data4 = dni.Text;
+            var inputs = new[] { nombre.Text, apellido1.Text, apellido2.Text, dni.Text };
 
-            string[] savedData = [data1, data2, data3, data4];
+            if (inputs.Any(string.IsNullOrWhiteSpace))
+            {
+                MessageBox.Show("Por favor, rellena todos los campos.");
+                return;
+            }
 
-            WelcomeWindow welcomeScreen = new WelcomeWindow(savedData);
+            data1 = inputs[0];
+            data2 = inputs[1];
+            data3 = inputs[2];
+            data4 = inputs[3];
 
-            welcomeScreen.Show();
-            this.Close();
+            savedData = inputs;
+        }
+        private void visualize(object sender, RoutedEventArgs e)
+        {
+            if (savedData == null)
+            {
+                MessageBox.Show("No hay datos para mostrar. Por favor, rellena y acepta los datos primero.");
+                return;
+            }
+            else
+            {
+                WelcomeWindow welcomeScreen = new WelcomeWindow(savedData);
+                welcomeScreen.Show();
+                this.Close();
+            }
+            
         }
 
         private void Salir_Click(object sender, RoutedEventArgs e)

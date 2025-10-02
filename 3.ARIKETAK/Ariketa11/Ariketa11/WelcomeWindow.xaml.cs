@@ -46,5 +46,10 @@ namespace Ariketa11
             dniWW.Text = "DNI: " + userData[3];
         }
 
+        private void Salir_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
     }
 }
