@@ -1,0 +1,42 @@
+﻿<Window x:Class="AtazaKudeatzailea.AtazaEditatuWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AtazaKudeatzailea"
+        mc:Ignorable="d"
+        Title="Ataza xehetasunak" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        WindowStyle="ToolWindow" ResizeMode="NoResize">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="250"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Titulua -->
+        <Label Content="Titulua:" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding Ataza.Titulua, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" Grid.Column="1" Margin="5"/>
+
+        <!-- Lehentasuna -->
+        <Label Content="Lehentasuna:" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center"/>
+        <ComboBox ItemsSource="{Binding LehentasunMotak}" 
+                  SelectedItem="{Binding Ataza.Lehentasuna}" 
+                  Grid.Row="1" Grid.Column="1" Margin="5"/>
+
+        <!-- Azken Eguna -->
+        <Label Content="Azken eguna:" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center"/>
+        <DatePicker SelectedDate="{Binding Ataza.AzkenEguna}" Grid.Row="2" Grid.Column="1" Margin="5"/>
+
+        <!-- Botoiak -->
+        <StackPanel Grid.Row="3" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="Gorde" Width="80" Margin="5" IsDefault="True" Click="Gorde_Click"/>
+            <Button Content="Utzi" Width="80" Margin="5" IsCancel="True" Click="Utzi_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

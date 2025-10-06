@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Tareas>
+	<Tarea id="1">
+		<Titulua>Interfazeen garapeneko 2. ariketa</Titulua>
+		<Lehentasuna>Ertaina</Lehentasuna>
+		<AzkenEguna>2025-10-01</AzkenEguna>
+		<Egoera>Egin gabe</Egoera>
+	</Tarea>
+	<Tarea id="2">
+		<Titulua>Proiektua dokumentatu</Titulua>
+		<Lehentasuna>Baxua</Lehentasuna>
+		<AzkenEguna>2025-11-15</AzkenEguna>
+		<Egoera>Egin gabe</Egoera>
+	</Tarea>
+	<Tarea id="3">
+		<Titulua>Bezeroari demoa bidali</Titulua>
+		<Lehentasuna>Handia</Lehentasuna>
+		<AzkenEguna>2025-09-30</AzkenEguna>
+		<Egoera>Eginda</Egoera>
+	</Tarea>
+</Tareas>
