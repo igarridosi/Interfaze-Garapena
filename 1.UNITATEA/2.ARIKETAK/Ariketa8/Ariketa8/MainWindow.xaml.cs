@@ -100,7 +100,7 @@ namespace Ariketa8
 
         private void ShowErrorAndReset()
         {
-            MessageBox.Show("Introduzca los datos correctamente edo irten sakatu", "Data okerra", MessageBoxButton.OK, MessageBoxImage.Error);
+            System.Windows.MessageBox.Show("Introduzca los datos correctamente edo irten sakatu", "Data okerra", MessageBoxButton.OK, MessageBoxImage.Error);
             OrainTextBox.Text = "";
             GaurTextBox.Text = "";
             GaurkoOrduaTextBox.Text = "";
@@ -119,7 +119,7 @@ namespace Ariketa8
 
         private void Salir_Click(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            System.Windows.Application.Current.Shutdown();
         }
     }
 }
