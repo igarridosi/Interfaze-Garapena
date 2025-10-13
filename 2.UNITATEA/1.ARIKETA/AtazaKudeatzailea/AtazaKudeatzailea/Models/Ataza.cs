@@ -29,7 +29,7 @@ namespace AtazaKudeatzailea.Models
             get => _titulua;
             set { _titulua = value; OnPropertyChanged(); }
         }
-
+        
         public LehentasunMota Lehentasuna
         {
             get => _lehentasuna;

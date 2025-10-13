@@ -23,7 +23,6 @@ namespace AtazaKudeatzailea
 
         private void Gorde_Click(object sender, RoutedEventArgs e)
         {
-            // Balidazioa hemen gehi liteke etorkizunean
             this.DialogResult = true;
         }
 

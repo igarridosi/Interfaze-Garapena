@@ -51,7 +51,7 @@ namespace AtazaKudeatzailea.ViewModels
                 AzkenEguna = DateTime.Today // Data lehenetsia
             };
 
-            var viewModel = new AtazaEditatuViewModel(atazaBerria); // ViewModel bat sortuko dugu honentzat
+            var viewModel = new AtazaEditatuViewModel(atazaBerria);
             var dialog = new AtazaEditatuWindow
             {
                 DataContext = viewModel

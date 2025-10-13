@@ -17,7 +17,7 @@ namespace AtazaKudeatzailea.Services
         public XmlDataService(string filePath)
         {
             _filePath = filePath;
-            // Ziurtatu "Data" direktorioa existitzen dela
+            // Ziurtatzen du, "Data" direktorioa existitzen dela
             Directory.CreateDirectory(Path.GetDirectoryName(filePath));
         }
 

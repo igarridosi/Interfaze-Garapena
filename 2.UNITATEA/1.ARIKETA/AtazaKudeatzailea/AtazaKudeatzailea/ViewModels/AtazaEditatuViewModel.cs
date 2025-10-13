@@ -13,7 +13,7 @@ namespace AtazaKudeatzailea.ViewModels
     {
         public Ataza Ataza { get; set; }
 
-        // ComboBox-a betetzeko Lehentasun mota guztien zerrenda
+        // ComboBox-a betetzeko lehentasun mota guztien zerrenda
         public Array LehentasunMotak => Enum.GetValues(typeof(LehentasunMota));
 
         public AtazaEditatuViewModel(Ataza ataza)
