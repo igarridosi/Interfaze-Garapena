@@ -16,50 +16,98 @@ namespace LekuErreserbaSistema
 {
     public partial class MainWindow : Window
     {
-        private GarraioPlanoa nireAutobusa;
+        private GarraioPlanoa nireGarraioa;
+        private string unekoFitxategia;
         public List<Eserlekua> Eserlekuak { get; set; }
 
         public MainWindow()
         {
             InitializeComponent();
-
-            KargatuEdoSortuPlanoa();
-
-            this.DataContext = this;
-
-            // Hasierako koloreak ondo ezarri
-            this.Loaded += MainWindow_Loaded;
         }
 
-        private void KargatuEdoSortuPlanoa()
+        private void AutobusaAukeratu_Click(object sender, RoutedEventArgs e)
         {
-            // 1. Lortu programaren .exe fitxategia dagoen karpetaren bide osoa
-            string programarenKarpeta = AppContext.BaseDirectory;
+            // Autobusaren diseinua: 12 ilara, 4 zutabe
+            KargatuPlanoa(12, 4, "autobusa.json");
+        }
 
-            // 2. Sortu fitxategiaren bide osoa eta fidagarria
-            string bideFidagarria = System.IO.Path.Combine(programarenKarpeta, "eserlekuak.json");
+        private void TrenaAukeratu_Click(object sender, RoutedEventArgs e)
+        {
+            // Trenaren diseinua: 20 ilara, 4 zutabe (2+2)
+            KargatuPlanoa(20, 4, "trena.json");
+        }
 
-            // 3. Erabili beti bide fidagarri hori
+        private void HegazkinaAukeratu_Click(object sender, RoutedEventArgs e)
+        {
+            // Hegazkinaren diseinua: 25 ilara, 6 zutabe (3+3)
+            KargatuPlanoa(25, 6, "hegazkina.json");
+        }
+
+        private void AtzeraBotoia_Click(object sender, RoutedEventArgs e)
+        {
+            // Gorde aldaketak atzera joan aurretik
+            GordeUnekoPlanoa();
+
+            // Erakutsi menua eta ezkutatu planoa
+            MenuPanela.Visibility = Visibility.Visible;
+            PlanoPanela.Visibility = Visibility.Collapsed;
+
+            // Garbitu datuak hurrengorako prest egoteko
+            nireGarraioa = null;
+            Eserlekuak = null;
+            this.DataContext = null;
+        }
+
+        private void KargatuPlanoa(int ilarak, int zutabeak, string fitxategiIzena)
+        {
+            this.unekoFitxategia = fitxategiIzena;
+            string bideFidagarria = System.IO.Path.Combine(AppContext.BaseDirectory, fitxategiIzena);
+
             if (File.Exists(bideFidagarria))
             {
-                try
-                {
-                    string jsonText = File.ReadAllText(bideFidagarria);
-                    var kargatutakoEserlekuak = JsonConvert.DeserializeObject<List<Eserlekua>>(jsonText);
-                    nireAutobusa = new GarraioPlanoa(kargatutakoEserlekuak);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Errorea fitxategia kargatzean: " + ex.Message);
-                    nireAutobusa = new GarraioPlanoa(10, 4);
-                }
+                // Kargatu lehendik dagoen fitxategitik
+                string jsonText = File.ReadAllText(bideFidagarria);
+                var kargatutakoEserlekuak = JsonConvert.DeserializeObject<List<Eserlekua>>(jsonText);
+                nireGarraioa = new GarraioPlanoa(kargatutakoEserlekuak);
             }
             else
             {
-                nireAutobusa = new GarraioPlanoa(10, 4);
+                // Sortu plano berri bat hutsetik
+                nireGarraioa = new GarraioPlanoa(ilarak, zutabeak);
             }
 
-            Eserlekuak = nireAutobusa.Eserlekuak;
+            // Eguneratu datu-lotura eta interfazea
+            Eserlekuak = nireGarraioa.Eserlekuak;
+            this.DataContext = this;
+
+            // Erakutsi planoa eta ezkutatu menua
+            MenuPanela.Visibility = Visibility.Collapsed;
+            PlanoPanela.Visibility = Visibility.Visible;
+        }
+
+        private void GordeUnekoPlanoa()
+        {
+            // Ezer kargatu ez bada, ez dago zer gorde
+            if (nireGarraioa == null || string.IsNullOrEmpty(unekoFitxategia))
+            {
+                return;
+            }
+
+            try
+            {
+                string bideFidagarria = System.IO.Path.Combine(AppContext.BaseDirectory, unekoFitxategia);
+                string jsonText = JsonConvert.SerializeObject(nireGarraioa.Eserlekuak, Formatting.Indented);
+                File.WriteAllText(bideFidagarria, jsonText);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Errorea fitxategia gordetzean: " + ex.Message);
+            }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            GordeUnekoPlanoa();
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
@@ -86,7 +134,7 @@ namespace LekuErreserbaSistema
             Eserlekua hautatutakoEserlekua = sakatutakoBotoia.DataContext as Eserlekua;
             if (hautatutakoEserlekua == null) return;
 
-            nireAutobusa.AldatuHautapenEgoera(hautatutakoEserlekua.Id);
+            nireGarraioa.AldatuHautapenEgoera(hautatutakoEserlekua.Id);
 
             EguneratuBotoiBatenItxura(sakatutakoBotoia, hautatutakoEserlekua);
         }
@@ -110,19 +158,10 @@ namespace LekuErreserbaSistema
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            // Bihurtu gure eserlekuen zerrenda JSON formatuko testu batera.
-            // Formatting.Indented jartzen dugu fitxategia irakurgarriagoa izan dadin.
-            string jsonText = JsonConvert.SerializeObject(nireAutobusa.Eserlekuak, Formatting.Indented);
-
-            File.WriteAllText("eserlekuak.json", jsonText);
-        }
-
         private void BaieztatuKlikEginda(object sender, RoutedEventArgs e)
         {
             // 1. Deitu logikari datuak aldatzeko (Hautatuta -> Okupatuta)
-            nireAutobusa.BaieztatuErreserbak();
+            nireGarraioa.BaieztatuErreserbak();
 
             // 2. Orain, interfazea eguneratu behar dugu aldaketak islatzeko.
             //    Botoi guztiak arakatuko ditugu eta haien kolorea eguneratuko dugu.
