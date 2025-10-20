@@ -24,6 +24,11 @@ namespace LekuErreserbaSistema
             }
         }
 
+        public GarraioPlanoa(List<Eserlekua> lehendikDaudenEserlekuak)
+        {
+            Eserlekuak = lehendikDaudenEserlekuak;
+        }
+
         // Leku zehatz bat bere IDaren bidez bilatzen du eta egoera aldatzen dio.
         public void ErreserbatuLekua(string lekuId)
         {

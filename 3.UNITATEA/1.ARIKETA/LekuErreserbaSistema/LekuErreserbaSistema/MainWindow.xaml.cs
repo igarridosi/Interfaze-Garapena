@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using Newtonsoft.Json;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -8,6 +9,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Newtonsoft.Json;
+using System.IO;
 
 namespace LekuErreserbaSistema
 {
@@ -19,11 +22,51 @@ namespace LekuErreserbaSistema
         public MainWindow()
         {
             InitializeComponent();
-            nireAutobusa = new GarraioPlanoa(10, 4);
-            Eserlekuak = nireAutobusa.Eserlekuak;
 
-            // Honek esaten dio XAML-ari non bilatu behar dituen {Binding} bidez eskatutako propietateak
+            KargatuEdoSortuPlanoa();
+
             this.DataContext = this;
+
+            // Hasierako koloreak ondo ezarri
+            this.Loaded += MainWindow_Loaded;
+        }
+
+        private void KargatuEdoSortuPlanoa()
+        {
+            string fitxategia = "eserlekuak.json";
+
+            if (File.Exists(fitxategia))
+            {
+                string jsonText = File.ReadAllText(fitxategia);
+
+                // Bihurtu JSON testua berriro gure objektuen zerrendara.
+                var kargatutakoEserlekuak = JsonConvert.DeserializeObject<List<Eserlekua>>(jsonText);
+
+                // Sortu GarraioPlanoa kargatutako datuekin.
+                nireAutobusa = new GarraioPlanoa(kargatutakoEserlekuak);
+            }
+            else
+            {
+                nireAutobusa = new GarraioPlanoa(10, 4);
+            }
+
+            // Esleitu eserlekuen zerrenda propietate publikoari
+            Eserlekuak = nireAutobusa.Eserlekuak;
+        }
+
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Eguneratu botoi guztien hasierako itxura
+            foreach (var eserlekua in Eserlekuak)
+            {
+                // Bilatu eserleku bakoitzari dagokion botoia
+                Button botoia = EserlekuenPlanoa.ItemContainerGenerator.ContainerFromItem(eserlekua) as Button;
+
+                if (botoia != null)
+                {
+                    EguneratuBotoiBatenItxura(botoia, eserlekua);
+                }
+            }
         }
 
         private void EserlekuanKlikEginDa(object sender, RoutedEventArgs e)
@@ -35,10 +78,8 @@ namespace LekuErreserbaSistema
             Eserlekua hautatutakoEserlekua = sakatutakoBotoia.DataContext as Eserlekua;
             if (hautatutakoEserlekua == null) return;
 
-            // Deitu gure logikari
             nireAutobusa.AldatuHautapenEgoera(hautatutakoEserlekua.Id);
 
-            // Aldaketa bisualki islatu
             EguneratuBotoiBatenItxura(sakatutakoBotoia, hautatutakoEserlekua);
         }
 
@@ -58,6 +99,15 @@ namespace LekuErreserbaSistema
                     botoia.Background = System.Windows.Media.Brushes.LightBlue;
                     break;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // Bihurtu gure eserlekuen zerrenda JSON formatuko testu batera.
+            // Formatting.Indented jartzen dugu fitxategia irakurgarriagoa izan dadin.
+            string jsonText = JsonConvert.SerializeObject(nireAutobusa.Eserlekuak, Formatting.Indented);
+
+            File.WriteAllText("eserlekuak.json", jsonText);
         }
     }
 }
