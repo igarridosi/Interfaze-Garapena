@@ -34,9 +34,9 @@ namespace LekuErreserbaSistema
         {
             var lekua = Eserlekuak.FirstOrDefault(l => l.Id == lekuId);
 
-            if (lekua != null && lekua.Egoera == EgoeraLekua.Libre)
+            if (lekua != null && lekua.Egoera == EgoeraEserlekua.Libre)
             {
-                lekua.Egoera = EgoeraLekua.Okupatuta;
+                lekua.Egoera = EgoeraEserlekua.Okupatuta;
                 Console.WriteLine($"{lekuId} lekua ondo erreserbatu da.");
             }
             else
@@ -49,9 +49,9 @@ namespace LekuErreserbaSistema
         public void UtziErreserbaBertanBehera(string lekuId)
         {
             var lekua = Eserlekuak.FirstOrDefault(l => l.Id == lekuId);
-            if (lekua != null && lekua.Egoera == EgoeraLekua.Okupatuta)
+            if (lekua != null && lekua.Egoera == EgoeraEserlekua.Okupatuta)
             {
-                lekua.Egoera = EgoeraLekua.Libre;
+                lekua.Egoera = EgoeraEserlekua.Libre;
                 Console.WriteLine($"{lekuId} lekuaren erreserba bertan behera utzi da.");
             }
             else
@@ -66,13 +66,27 @@ namespace LekuErreserbaSistema
             var lekua = Eserlekuak.FirstOrDefault(l => l.Id == lekuId);
             if (lekua != null)
             {
-                if (lekua.Egoera == EgoeraLekua.Libre)
+                if (lekua.Egoera == EgoeraEserlekua.Libre)
                 {
-                    lekua.Egoera = EgoeraLekua.Hautatuta;
+                    lekua.Egoera = EgoeraEserlekua.Hautatuta;
                 }
-                else if (lekua.Egoera == EgoeraLekua.Hautatuta)
+                else if (lekua.Egoera == EgoeraEserlekua.Hautatuta)
                 {
-                    lekua.Egoera = EgoeraLekua.Libre;
+                    lekua.Egoera = EgoeraEserlekua.Libre;
+                }
+            }
+        }
+
+        public void BaieztatuErreserbak()
+        {
+            // Zerrenda osoa arakatu
+            foreach (var eserlekua in this.Eserlekuak)
+            {
+                // Eserleku bat "Hautatuta" badago...
+                if (eserlekua.Egoera == EgoeraEserlekua.Hautatuta)
+                {
+                    // ...bihurtu "Okupatuta"
+                    eserlekua.Egoera = EgoeraEserlekua.Okupatuta;
                 }
             }
         }

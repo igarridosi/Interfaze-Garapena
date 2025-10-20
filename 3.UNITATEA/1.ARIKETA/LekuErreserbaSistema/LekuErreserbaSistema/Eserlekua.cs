@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LekuErreserbaSistema
 {
-    public enum EgoeraLekua
+    public enum EgoeraEserlekua
     {
         Libre,
         Okupatuta,
@@ -15,12 +15,12 @@ namespace LekuErreserbaSistema
     public class Eserlekua
     {
         public string Id { get; set; }
-        public EgoeraLekua Egoera { get; set; }
+        public EgoeraEserlekua Egoera { get; set; }
 
         public Eserlekua(string id)
         {
             Id = id;
-            Egoera = EgoeraLekua.Libre;
+            Egoera = EgoeraEserlekua.Libre;
         }
 
     }

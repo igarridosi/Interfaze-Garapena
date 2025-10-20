@@ -8,8 +8,18 @@
         Title="MainWindow" Height="450" Width="800"
         Closing="Window_Closing">
     <!-- (Closing="Window_Closing") Ixterakoan datuak gordetzeko JSON-ean erabiltzen da -->
+    <Window.Resources>
+        <!-- Hemen gure converter-a deklaratzen dugu, gero erabili ahal izateko -->
+        <local:EgoeraToColorConverter x:Key="EgoeraConverter" />
+    </Window.Resources>
     <Grid>
-        <ItemsControl x:Name="EserlekuenPlanoa" ItemsSource="{Binding Eserlekuak}">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <ItemsControl x:Name="EserlekuenPlanoa" Grid.Row="0" ItemsSource="{Binding Eserlekuak}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel />
@@ -20,10 +30,16 @@
                 <DataTemplate>
                     <Button Content="{Binding Id}" 
                         Width="40" Height="40" Margin="5"
-                        Click="EserlekuanKlikEginDa" />
+                        Click="EserlekuanKlikEginDa"
+                        Background="{Binding Egoera, Converter={StaticResource EgoeraConverter}}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 
         </ItemsControl>
+        <Button Grid.Row="1" 
+            Content="Baieztatu Erreserba" 
+            Margin="10" Padding="10,5" 
+            HorizontalAlignment="Center"
+            Click="BaieztatuKlikEginda" />
     </Grid>
 </Window>
