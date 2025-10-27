@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,7 +20,8 @@ namespace LekuErreserbaSistema
                 for(int j = 1; j<= zutabeBakoitza; j++)
                 {
                     string id = $"I{i}-Z{j}";
-                    Eserlekuak.Add(new Eserlekua(id));
+                    string zona = (j == 1 || j == zutabeBakoitza) ? "Lehioa" : "Pasabidea";
+                    Eserlekuak.Add(new Eserlekua(id, zona));
                 }
             }
         }
@@ -57,23 +59,6 @@ namespace LekuErreserbaSistema
             else
             {
                 Console.WriteLine($"Ezin izan da erreserba bertan behera utzi. {lekuId} ez dago okupatuta.");
-            }
-        }
-
-        // Metodo honek erabiltzaileak hautatzen dituen lekuak kudeatzen ditu
-        public void AldatuHautapenEgoera(string lekuId)
-        {
-            var lekua = Eserlekuak.FirstOrDefault(l => l.Id == lekuId);
-            if (lekua != null)
-            {
-                if (lekua.Egoera == EgoeraEserlekua.Libre)
-                {
-                    lekua.Egoera = EgoeraEserlekua.Hautatuta;
-                }
-                else if (lekua.Egoera == EgoeraEserlekua.Hautatuta)
-                {
-                    lekua.Egoera = EgoeraEserlekua.Libre;
-                }
             }
         }
 

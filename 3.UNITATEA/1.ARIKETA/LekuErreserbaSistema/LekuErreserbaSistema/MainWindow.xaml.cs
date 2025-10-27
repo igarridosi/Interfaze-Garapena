@@ -110,76 +110,48 @@ namespace LekuErreserbaSistema
             GordeUnekoPlanoa();
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
-        {
-            // Eguneratu botoi guztien hasierako itxura
-            foreach (var eserlekua in Eserlekuak)
-            {
-                // Bilatu eserleku bakoitzari dagokion botoia
-                Button botoia = EserlekuenPlanoa.ItemContainerGenerator.ContainerFromItem(eserlekua) as Button;
-
-                if (botoia != null)
-                {
-                    EguneratuBotoiBatenItxura(botoia, eserlekua);
-                }
-            }
-        }
-
         private void EserlekuanKlikEginDa(object sender, RoutedEventArgs e)
         {
-            // WPF-n, sakatutako botoiari lotutako Eserlekua zuzenean lor dezakegu bere DataContext-etik.
             Button sakatutakoBotoia = sender as Button;
             if (sakatutakoBotoia == null) return;
 
             Eserlekua hautatutakoEserlekua = sakatutakoBotoia.DataContext as Eserlekua;
             if (hautatutakoEserlekua == null) return;
 
-            nireGarraioa.AldatuHautapenEgoera(hautatutakoEserlekua.Id);
-
-            EguneratuBotoiBatenItxura(sakatutakoBotoia, hautatutakoEserlekua);
-        }
-
-        // Koloreak aldatzeko funtzioa
-        private void EguneratuBotoiBatenItxura(Button botoia, Eserlekua eserlekua)
-        {
-            // Ziurtatu hemen zure enum-aren izen zuzena erabiltzen duzula
-            switch (eserlekua.Egoera)
+            if (hautatutakoEserlekua.Egoera == EgoeraEserlekua.Libre)
             {
-                case EgoeraEserlekua.Libre:
-                    botoia.Background = System.Windows.Media.Brushes.White;
-                    break;
-                case EgoeraEserlekua.Okupatuta:
-                    botoia.Background = System.Windows.Media.Brushes.LightCoral;
-                    botoia.IsEnabled = false;
-                    break;
-                case EgoeraEserlekua.Hautatuta:
-                    botoia.Background = System.Windows.Media.Brushes.LightBlue;
-                    break;
+                var dataLehioa = new DataAukeratuLehioa();
+                if (dataLehioa.ShowDialog() == true)
+                {
+                    hautatutakoEserlekua.ErreserbaData = dataLehioa.HautatutakoData;
+                    hautatutakoEserlekua.Egoera = EgoeraEserlekua.Hautatuta;
+                }
+            }
+            else if (hautatutakoEserlekua.Egoera == EgoeraEserlekua.Hautatuta)
+            {
+                hautatutakoEserlekua.ErreserbaData = null;
+                hautatutakoEserlekua.Egoera = EgoeraEserlekua.Libre;
+            }
+            else if (hautatutakoEserlekua.Egoera == EgoeraEserlekua.Okupatuta)
+            {
+                MessageBoxResult emaitza = MessageBox.Show(
+                    $"Ziur zaude '{hautatutakoEserlekua.Id}' eserlekuaren erreserba bertan behera utzi nahi duzula?",
+                    "Erreserba Utzi", MessageBoxButton.YesNo, MessageBoxImage.Question);
+
+                if (emaitza == MessageBoxResult.Yes)
+                {
+                    hautatutakoEserlekua.ErreserbaData = null;
+                    hautatutakoEserlekua.Egoera = EgoeraEserlekua.Libre;
+                }
             }
         }
 
+
         private void BaieztatuKlikEginda(object sender, RoutedEventArgs e)
         {
-            // 1. Deitu logikari datuak aldatzeko (Hautatuta -> Okupatuta)
-            nireGarraioa.BaieztatuErreserbak();
-
-            // 2. Orain, interfazea eguneratu behar dugu aldaketak islatzeko.
-            //    Botoi guztiak arakatuko ditugu eta haien kolorea eguneratuko dugu.
-            foreach (var eserlekua in Eserlekuak)
+            if (nireGarraioa != null)
             {
-                // Bilatu eserleku bakoitzari dagokion botoia
-                var container = EserlekuenPlanoa.ItemContainerGenerator.ContainerFromItem(eserlekua);
-
-                // ContainerFromItem-ek ez du zuzenean Button itzultzen, bilatu behar da
-                if (container is FrameworkElement fe)
-                {
-                    var botoia = FindVisualChild<Button>(fe);
-                    if (botoia != null)
-                    {
-                        // Deitu lehendik daukagun metodoari botoiaren kolorea eguneratzeko
-                        EguneratuBotoiBatenItxura(botoia, eserlekua);
-                    }
-                }
+                nireGarraioa.BaieztatuErreserbak();
             }
         }
 

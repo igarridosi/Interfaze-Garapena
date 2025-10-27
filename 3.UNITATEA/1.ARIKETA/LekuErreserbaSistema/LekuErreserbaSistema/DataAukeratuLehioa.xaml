@@ -1,0 +1,25 @@
+﻿<Window x:Class="LekuErreserbaSistema.DataAukeratuLehioa"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Aukeratu Data eta Ordua" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+
+    <StackPanel Margin="20">
+        <!-- Data atala -->
+        <Label Content="Aukeratu erreserba data:" FontWeight="Bold"/>
+        <DatePicker x:Name="dataPicker" Margin="0,5,0,15" FirstDayOfWeek="Monday"/>
+
+        <!-- Ordua atala -->
+        <Label Content="Aukeratu erreserba ordua:" FontWeight="Bold"/>
+        <StackPanel Orientation="Horizontal" Margin="0,5,0,20">
+            <ComboBox x:Name="orduComboBox" Width="60" Margin="0,0,5,0"/>
+            <TextBlock Text=":" VerticalAlignment="Center" FontWeight="Bold"/>
+            <ComboBox x:Name="minutuComboBox" Width="60" Margin="5,0,0,0"/>
+        </StackPanel>
+
+        <!-- Botoiak -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Baieztatu" Width="100" Margin="0,0,10,0" IsDefault="True" Click="Baieztatu_Click"/>
+            <Button Content="Utzi" Width="100" IsCancel="True"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

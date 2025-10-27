@@ -16,20 +16,19 @@ namespace LekuErreserbaSistema
             {
                 switch (egoera)
                 {
-                    case EgoeraEserlekua.Libre:
-                        return Brushes.White;
-                    case EgoeraEserlekua.Okupatuta:
-                        return Brushes.Red;
                     case EgoeraEserlekua.Hautatuta:
                         return Brushes.LightBlue;
+                    case EgoeraEserlekua.Okupatuta:
+                        return Brushes.LightCoral;
+                    case EgoeraEserlekua.Libre:
                     default:
-                        return Brushes.Gray;
+                        // Itzuli "ezarri gabe" kolorea, botoiak bere kolore lehenetsia har dezan
+                        return DependencyProperty.UnsetValue;
                 }
             }
-            return Brushes.Gray;
+            return DependencyProperty.UnsetValue;
         }
 
-        // Ez dugu hau erabiliko, baina interfazeak behartzen gaitu jartzera
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
