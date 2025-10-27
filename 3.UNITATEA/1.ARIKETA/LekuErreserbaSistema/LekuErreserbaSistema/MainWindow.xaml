@@ -5,16 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LekuErreserbaSistema"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="Leku Erreserba Sistema" Height="500" Width="800"
         Closing="Window_Closing">
-    <!-- (Closing="Window_Closing") Ixterakoan datuak gordetzeko JSON-ean erabiltzen da -->
-    <Window.Resources>
-        <!-- Hemen gure converter-a deklaratzen dugu, gero erabili ahal izateko -->
-        <local:EgoeraToColorConverter x:Key="EgoeraConverter" />
-    </Window.Resources>
     <Grid>
-        <!-- 1. PANELA: GARRAIO MOTA AUKERATZEKO MENUA -->
-        <!-- Hasieran hau bakarrik ikusiko da -->
         <StackPanel x:Name="MenuPanela" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Label Content="Aukeratu garraio mota:" FontSize="16" FontWeight="Bold" HorizontalAlignment="Center"/>
             <Button Content="Autobusa" Width="150" Margin="10" Padding="10" Click="AutobusaAukeratu_Click" />
@@ -22,33 +15,14 @@
             <Button Content="Hegazkina" Width="150" Margin="10" Padding="10" Click="HegazkinaAukeratu_Click" />
         </StackPanel>
 
-        <!-- 2. PANELA: ESERLEKUEN PLANOA ETA KONTROLAK -->
-        <!-- Hasieran hau ezkutatuta egongo da (Collapsed) -->
         <Grid x:Name="PlanoPanela" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <!-- Eserlekuentzat -->
                 <RowDefinition Height="Auto" />
-                <!-- Botoientzat -->
             </Grid.RowDefinitions>
 
-            <!-- Eserlekuen ItemsControl (lehen zenuen bezala) -->
-            <ItemsControl x:Name="EserlekuenPlanoa" Grid.Row="0" ItemsSource="{Binding Eserlekuak}">
-                <!-- Zure ItemsPanel eta ItemTemplate hemen doaz (aldaketarik gabe) -->
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Content="{Binding Id}" Width="40" Height="40" Margin="5" Click="EserlekuanKlikEginDa"
-                            Background="{Binding Egoera, Converter={StaticResource EgoeraConverter}}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+            <ContentControl x:Name="GarraioIkuspegia" Grid.Row="0" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <!-- Baieztatu eta Itzuli botoiak -->
             <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Baieztatu Erreserba" Margin="10" Padding="10,5" Click="BaieztatuKlikEginda" />
                 <Button Content="Atzera" Margin="10" Padding="10,5" Click="AtzeraBotoia_Click" />

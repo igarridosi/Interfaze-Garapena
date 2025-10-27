@@ -5,13 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LekuErreserbaSistema"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="350">
+             d:DesignHeight="450" d:DesignWidth="400">
 
     <UserControl.Resources>
-        <!-- 1. Converter-a koloreak dinamikoki kudeatzeko -->
         <local:EgoeraToColorConverter x:Key="EgoeraConverter" />
 
-        <!-- 2. Botoien Estilo Osoa -->
         <Style x:Key="EserlekuButtonStyle" TargetType="Button">
             <Setter Property="Width" Value="50" />
             <Setter Property="Height" Value="40" />
@@ -19,8 +17,6 @@
             <Setter Property="BorderBrush" Value="Gray" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-
-            <!-- Hasierako atzeko planoaren kolorea Converter-ak ezartzen du -->
             <Setter Property="Background" Value="{Binding Egoera, Converter={StaticResource EgoeraConverter}}" />
             <Setter Property="RenderTransform">
                 <Setter.Value>
@@ -28,83 +24,51 @@
                 </Setter.Value>
             </Setter>
 
-            <!-- 3. TXANTILOI PERTSONALIZATUA -->
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border x:Name="border" 
-                            Background="{TemplateBinding Background}" 
-                            BorderBrush="{TemplateBinding BorderBrush}" 
-                            BorderThickness="{TemplateBinding BorderThickness}" 
-                            CornerRadius="4"
-                            RenderTransformOrigin="{TemplateBinding RenderTransformOrigin}">
-                            <!-- RenderTransform bat definitzen dugu hemen, gero aldatu ahal izateko -->
+                        <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="4">
                             <Border.RenderTransform>
-                                <ScaleTransform ScaleX="1.0" ScaleY="1.0" />
+                                <ScaleTransform />
                             </Border.RenderTransform>
-
-                            <!-- Edukia: Testua eta Ikonoa -->
                             <Grid>
                                 <TextBlock Text="{Binding Id}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="10" FontWeight="SemiBold"/>
                                 <TextBlock x:Name="Icona" Text="" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,2,4,0" FontSize="12" FontWeight="Bold"/>
                             </Grid>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <DataTrigger Binding="{Binding Egoera}" Value="Hautatuta">
+                                <Setter TargetName="Icona" Property="Text" Value="✓" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Egoera}" Value="Okupatuta">
+                                <Setter TargetName="Icona" Property="Text" Value="🔒" />
+                            </DataTrigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
 
-            <!-- 4. TRIGGER-AK (PORTAERA DINAMIKOA) -->
             <Style.Triggers>
-                <!-- Egoera 'Hautatuta' denean: Ikonoa eta Itxura aldatu -->
-                <DataTrigger Binding="{Binding Egoera}" Value="Hautatuta">
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="BorderBrush" Value="DarkBlue"/>
-                    <Setter Property="BorderThickness" Value="2"/>
-                    <!-- Zure converter-ak jada LightBlue jartzen dio -->
+                <DataTrigger Binding="{Binding Zona}" Value="Lehioa">
+                    <Setter Property="BorderBrush" Value="DodgerBlue" />
+                    <Setter Property="BorderThickness" Value="1.5" />
                 </DataTrigger>
-
-                <!-- Egoera 'Okupatuta' denean: Desgaitu eta itxura aldatu -->
-                <DataTrigger Binding="{Binding Egoera}" Value="Okupatuta">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <!-- Zure converter-ak jada LightCoral jartzen dio -->
-                </DataTrigger>
-
-                <!-- Sagua gainean eta LIBRE dagoenean -->
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="True" />
-                        <Condition Binding="{Binding Egoera}" Value="Libre" />
-                    </MultiDataTrigger.Conditions>
-                    <Setter Property="Background" Value="Gold"/>
-                </MultiDataTrigger>
-
-                <!-- Sakatuta eta LIBRE dagoenean: Animazioa -->
-                <MultiDataTrigger>
-                    <MultiDataTrigger.Conditions>
-                        <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="True" />
-                        <Condition Binding="{Binding Egoera}" Value="Libre" />
-                    </MultiDataTrigger.Conditions>
-                    <!-- Zuzenean ScaleTransform-aren propietateak aldatzen ditugu -->
+                <Trigger Property="IsPressed" Value="True">
                     <Setter Property="RenderTransform">
                         <Setter.Value>
                             <ScaleTransform ScaleX="0.95" ScaleY="0.95" />
                         </Setter.Value>
                     </Setter>
-                </MultiDataTrigger>
+                </Trigger>
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
 
-    <!-- Autobusaren diseinua GRID batekin -->
     <Grid HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
-            <!-- Ezkerra -->
             <ColumnDefinition Width="30" />
-            <!-- Pasabidea -->
             <ColumnDefinition Width="Auto" />
-            <!-- Eskuina -->
         </Grid.ColumnDefinitions>
 
         <ItemsControl Grid.Column="0" ItemsSource="{Binding EzkerrekoZutabeak}">
@@ -115,7 +79,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Style="{StaticResource EserlekuButtonStyle}"/>
+                    <Button Style="{StaticResource EserlekuButtonStyle}" Click="EserlekuanKlikEginDa"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -128,7 +92,7 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button Style="{StaticResource EserlekuButtonStyle}"/>
+                    <Button Style="{StaticResource EserlekuButtonStyle}" Click="EserlekuanKlikEginDa"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
