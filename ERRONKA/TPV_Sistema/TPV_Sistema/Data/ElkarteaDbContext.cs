@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,6 +19,9 @@ public class ElkarteaDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=elkartea.db");
+        // Bide erlatiboaren ordez ("Data Source=elkartea.db"),
+        // bide absolutu eta esplizitu bat eraikiko dugu.
+        string dbPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "elkartea.db");
+        optionsBuilder.UseSqlite($"Data Source={dbPath}");
     }
 }

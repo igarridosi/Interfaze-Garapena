@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TPV_Sistema.Migrations
 {
     /// <inheritdoc />
-    public partial class HasierakoSorrera : Migration
+    public partial class HasieraBerria : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

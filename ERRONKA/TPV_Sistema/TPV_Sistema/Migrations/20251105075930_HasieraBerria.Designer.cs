@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TPV_Sistema.Migrations
 {
     [DbContext(typeof(ElkarteaDbContext))]
-    [Migration("20251104182910_HasierakoSorrera")]
-    partial class HasierakoSorrera
+    [Migration("20251105075930_HasieraBerria")]
+    partial class HasieraBerria
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

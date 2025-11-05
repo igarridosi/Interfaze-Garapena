@@ -103,5 +103,22 @@ namespace LekuErreserbaSistema
         // Erreserba bat bertan behera uzten du.
         public void UtziErreserbaBertanBehera(string lekuId)
         {
-            var lekua = Eserlekuak.FirstOrDefault(l => l.Id == lekuId);            if (lekua != null && lekua.Egoera == EgoeraEserlekua.Okupatuta)            {                lekua.Egoera = EgoeraEserlekua.Libre;            }        }        public void BaieztatuErreserbak()        {            foreach (var eserlekua in this.Eserlekuak)            {                if (eserlekua.Egoera == EgoeraEserlekua.Hautatuta)                {                    eserlekua.Egoera = EgoeraEserlekua.Okupatuta;                }            }        }    }
+            var lekua = Eserlekuak.FirstOrDefault(l => l.Id == lekuId);
+            if (lekua != null && lekua.Egoera == EgoeraEserlekua.Okupatuta)
+            {
+                lekua.Egoera = EgoeraEserlekua.Libre;
+            }
+        }
+
+        public void BaieztatuErreserbak()
+        {
+            foreach (var eserlekua in this.Eserlekuak)
+            {
+                if (eserlekua.Egoera == EgoeraEserlekua.Hautatuta)
+                {
+                    eserlekua.Egoera = EgoeraEserlekua.Okupatuta;
+                }
+            }
+        }
+    }
 }

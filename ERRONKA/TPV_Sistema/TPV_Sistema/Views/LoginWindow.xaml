@@ -1,0 +1,23 @@
+﻿<Window x:Class="TPV_Sistema.Views.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TPV_Sistema.Views"
+        mc:Ignorable="d"
+        Title="Saioa Hasi" Height="300" Width="400"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="250">
+            <Label Content="Erabiltzailea:"/>
+            <TextBox Text="{Binding ErabiltzaileIzena, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+            <Label Content="Pasahitza:"/>
+            <PasswordBox x:Name="PasahitzaBox" Margin="0,0,0,20"/>
+
+            <Button Content="Sartu" Command="{Binding SartuAgindua}" CommandParameter="{Binding ElementName=PasahitzaBox}" IsDefault="True"/>
+
+            <TextBlock Text="{Binding ErroreMezua}" Foreground="Red" Margin="0,10,0,0" TextWrapping="Wrap"/>
+        </StackPanel>
+    </Grid>
+</Window>
