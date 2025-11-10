@@ -6,6 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using QuestPDF.Fluent;
+using System.Diagnostics;
+using System.IO;
+using TPV_Sistema.Services;
 using TPV_Sistema.Models;
 
 namespace TPV_Sistema.ViewModels
@@ -53,6 +57,9 @@ namespace TPV_Sistema.ViewModels
         public RelayCommand EginErreserbaAgindua { get; private set; }
         public RelayCommand EzabatuErreserbaAgindua { get; private set; }
 
+        // TICKET PDF
+        public RelayCommand InprimatuTicketAgindua { get; private set; }
+
 
         public ErabiltzaileViewModel(Erabiltzailea erabiltzailea)
         {
@@ -73,6 +80,9 @@ namespace TPV_Sistema.ViewModels
             Otorduak = new ObservableCollection<string> { "Bazkaria", "Afaria" };
             EginErreserbaAgindua = new RelayCommand(async (p) => await EginErreserba(), (p) => HautatutakoMahaia != null && !string.IsNullOrEmpty(HautatutakoOtordua));
             EzabatuErreserbaAgindua = new RelayCommand(async (p) => await EzabatuErreserba(), (p) => HautatutakoErreserba != null);
+
+            // TICKET
+            GordeTicketAgindua = new RelayCommand(async (p) => await GordeEtaInprimatuAukera(), (p) => UnekoTicket.Any());
 
             // UnekoTicket bilduma aldatzen den bakoitzean, totalak birkalkulatu
             UnekoTicket.CollectionChanged += (s, e) => KalkulatuTotalak();
@@ -180,41 +190,28 @@ namespace TPV_Sistema.ViewModels
             UnekoTicket.Clear();
         }
 
-        private async Task GordeTicket()
+        private async Task<Eskaera> GordeTicket()
         {
-            // 1. Egiaztatu baldintzak betetzen direla gorde aurretik
-            if (!UnekoTicket.Any())
-            {
-                MessageBox.Show("Ezin da ticket huts bat gorde.");
-                return;
-            }
+            if (!UnekoTicket.Any()) return null;
 
-            if (_logeatutakoErabiltzailea == null)
-            {
-                MessageBox.Show("ERRORE KRITIKOA: Saioa hasitako erabiltzailea ez da aurkitu.");
-                return;
-            }
+            Eskaera eskaeraBerria; // Aldagaia kanpoan deklaratu
 
-            // 2. Datu-basearekin lan egin
             await using (var db = new ElkarteaDbContext())
             {
-                // Bilatu saioa hasitako erabiltzailea uneko DbContext-aren barruan
                 var erabiltzaileaDB = await db.Erabiltzaileak.FindAsync(_logeatutakoErabiltzailea.Id);
                 if (erabiltzaileaDB == null)
                 {
-                    MessageBox.Show("ERRORE KRITIKOA: Saioa hasitako erabiltzailea ez da datu-basean existitzen.");
-                    return;
+                    MessageBox.Show("ERRORE KRITIKOA: Erabiltzailea ez da datu-basean aurkitu.");
+                    return null;
                 }
 
-                // Sortu eskaera berria, oraingoan erabiltzaile objektu zuzenarekin
-                var eskaeraBerria = new Eskaera
+                eskaeraBerria = new Eskaera
                 {
                     Data = DateTime.Now,
                     Guztira = this.Totala,
                     Erabiltzailea = erabiltzaileaDB
                 };
 
-                // Prozesatu lerroak
                 foreach (var ticketLerroa in UnekoTicket)
                 {
                     var produktuaDB = await db.Produktuak.FindAsync(ticketLerroa.ProduktuaId);
@@ -231,15 +228,21 @@ namespace TPV_Sistema.ViewModels
                     }
                 }
 
-                // Gorde dena
                 db.Eskaerak.Add(eskaeraBerria);
                 await db.SaveChangesAsync();
             }
 
-            // 3. Amaierako ekintzak
-            MessageBox.Show("Salmenta ondo gorde da!", "Eginda", MessageBoxButton.OK, MessageBoxImage.Information);
-            GarbituTicket(null);
-            await KargatuProduktuak();
+            // Gorde ondoren, datu-basetik berriro irakurri erlazio guztiak ondo kargatzeko
+            await using (var db = new ElkarteaDbContext())
+            {
+                // Garrantzitsua: Include erabili datu guztiak ekartzeko (Produktuak...)
+#pragma warning disable CS8603 // Possible null reference return.
+                return await db.Eskaerak
+                    .Include(e => e.Lerroak)
+                    .ThenInclude(l => l.Produktua)
+                    .FirstOrDefaultAsync(e => e.Id == eskaeraBerria.Id);
+#pragma warning restore CS8603 // Possible null reference return.
+            }
         }
         // ERRESERBEN METODOAK (gehitu metodo berri hauek)
         private async Task KargatuMahaiak()
@@ -261,18 +264,15 @@ namespace TPV_Sistema.ViewModels
 
             await using (var db = new ElkarteaDbContext())
             {
-                // 1. ZIURTATU DATAREN ZATIA BAKARRIK KONPARATZEN DUGULA
                 var gaur = DateTime.Today;
 
                 var myReservations = await db.Erreserbak
                     .Include(r => r.Mahaia)
-                    // 2. ERABILTZAILEAREN ID-a ZUZENA DELA ZIURTATU
+                    // ERABILTZAILEAREN ID-a ZUZENA DELA ZIURTATU
                     .Where(r => r.ErabiltzaileaId == _logeatutakoErabiltzailea.Id && r.Data.Date >= gaur)
                     .OrderBy(r => r.Data)
                     .ToListAsync();
 
-                // DEBUGGING: Jarri eten-puntu bat (breakpoint) beheko lerroan
-                // eta ikusi "myReservations" aldagaiak zenbat elementu dituen.
                 Application.Current.Dispatcher.Invoke(() => {
                     NireErreserbak.Clear();
                     foreach (var res in myReservations)
@@ -358,6 +358,45 @@ namespace TPV_Sistema.ViewModels
 
             // Eguneratu zerrenda ezabatu ondoren
             await KargatuNireErreserbak();
+        }
+
+        private void InprimatuTicket(Eskaera eskaera)
+        {
+            if (eskaera == null) return;
+
+            try
+            {
+                var document = new TicketDocument(eskaera);
+                string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads\";
+                string filePath = Path.Combine(downloadsPath, $"Ticket_{eskaera.Id}_{eskaera.Data:yyyyMMdd_HHmmss}.pdf");
+                document.GeneratePdf(filePath);
+
+                var processStartInfo = new ProcessStartInfo(filePath) { UseShellExecute = true };
+                Process.Start(processStartInfo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Errore bat gertatu da ticketa inprimatzean: {ex.Message}", "Inprimaketa Errorea", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        // Komandoen logika kudeatzeko metodo berria
+        public async Task GordeEtaInprimatuAukera()
+        {
+            var gordetakoEskaera = await GordeTicket();
+
+            if (gordetakoEskaera != null)
+            {
+                var result = MessageBox.Show("Salmenta ondo gorde da. Ticketa inprimatu nahi duzu?", "Eginda", MessageBoxButton.YesNo, MessageBoxImage.Information);
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    InprimatuTicket(gordetakoEskaera);
+                }
+
+                GarbituTicket(null);
+                await KargatuProduktuak();
+            }
         }
     }
 }

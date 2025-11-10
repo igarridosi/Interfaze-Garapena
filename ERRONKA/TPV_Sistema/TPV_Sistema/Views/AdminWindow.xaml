@@ -117,5 +117,50 @@
                 </StackPanel>
             </Grid>
         </TabItem>
+        <TabItem Header="Salmenten Erregistroa">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- EZKERREKO PANELA: ESKAERA GUZTIAK -->
+                <Grid Grid.Column="0" Margin="0,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Egindako Salmenta Guztiak" FontSize="16" FontWeight="Bold"/>
+                    <DataGrid Grid.Row="1" Margin="0,10,0,0"
+                              ItemsSource="{Binding Eskaerak}"
+                              SelectedItem="{Binding HautatutakoEskaera}"
+                              IsReadOnly="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat='yyyy-MM-dd HH:mm'}" Width="*"/>
+                            <DataGridTextColumn Header="Erabiltzailea" Binding="{Binding Erabiltzailea.ErabiltzaileIzena}" Width="*"/>
+                            <DataGridTextColumn Header="Totala" Binding="{Binding Guztira, StringFormat={}{0:C}}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+                <!-- ESKUINEKO PANELA: HAUTATUTAKO ESKAERAREN XEETASUNAK -->
+                <Grid Grid.Column="1" Margin="10,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Salmentaren Xehetasunak" FontSize="16" FontWeight="Bold"/>
+                    <DataGrid Grid.Row="1" Margin="0,10,0,0"
+                              ItemsSource="{Binding HautatutakoEskaerarenLerroak}"
+                              IsReadOnly="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Produktua" Binding="{Binding Produktua.Izena}" Width="*"/>
+                            <DataGridTextColumn Header="Kant." Binding="{Binding Kantitatea}" Width="Auto"/>
+                            <DataGridTextColumn Header="Prezioa" Binding="{Binding PrezioaUnitateko, StringFormat={}{0:C}}" Width="Auto"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
+        </TabItem>
     </TabControl>
 </Window>

@@ -15,6 +15,9 @@ namespace TPV_Sistema.ViewModels
         // ERABILTZAILEEN ZERRENDA
         // ObservableCollection erabiltzen dugu, zerrenda aldatzean interfazea automatikoki freskatzeko.
         public ObservableCollection<Erabiltzailea> Erabiltzaileak { get; set; }
+        public ObservableCollection<Produktua> Produktuak { get; set; }
+        public ObservableCollection<Mahaia> Mahaiak { get; set; }
+        public ObservableCollection<Eskaera> Eskaerak { get; set; }
 
         // HAUTATUTAKO ERABILTZAILEA
         // Interfazeko zerrendan hautatzen dugun erabiltzailea gordeko du.
@@ -53,7 +56,6 @@ namespace TPV_Sistema.ViewModels
         public RelayCommand GarbituAgindua { get; private set; }
 
         // PRODUKTUAK
-        public ObservableCollection<Produktua> Produktuak { get; set; }
 
         private Produktua _hautatutakoProduktua;
         public Produktua HautatutakoProduktua
@@ -87,7 +89,6 @@ namespace TPV_Sistema.ViewModels
         public RelayCommand GarbituProduktuAgindua { get; private set; }
 
         // MAHAIAK
-        public ObservableCollection<Mahaia> Mahaiak { get; set; }
 
         private Mahaia _hautatutakoMahaia;
         public Mahaia HautatutakoMahaia
@@ -104,6 +105,30 @@ namespace TPV_Sistema.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        // ESKAERAK (SALMENTAK)
+
+        private Eskaera _hautatutakoEskaera;
+        public Eskaera HautatutakoEskaera
+        {
+            get => _hautatutakoEskaera;
+            set
+            {
+                _hautatutakoEskaera = value;
+                OnPropertyChanged();
+                // Hautatutako eskaeraren lerroak kargatu
+                if (value != null)
+                {
+                    _ = KargatuEskaeraLerroak();
+                }
+                else
+                {
+                    HautatutakoEskaerarenLerroak.Clear();
+                }
+            }
+        }
+        public ObservableCollection<EskaeraLerroa> HautatutakoEskaerarenLerroak { get; set; }
+
 
         private string _mahaiIzena;
         public string MahaiIzena { get => _mahaiIzena; set { _mahaiIzena = value; OnPropertyChanged(); } }
@@ -141,12 +166,17 @@ namespace TPV_Sistema.ViewModels
             EzabatuMahaiAgindua = new RelayCommand(async (p) => await EzabatuMahaia(), (p) => HautatutakoMahaia != null);
             GarbituMahaiAgindua = new RelayCommand((p) => GarbituMahaiHautapena());
 
+            // ESKAEREN HASIERAKETA
+            Eskaerak = new ObservableCollection<Eskaera>();
+            HautatutakoEskaerarenLerroak = new ObservableCollection<EskaeraLerroa>();
+
             // ViewModel-a sortzean, datu-baseko erabiltzaileak kargatu
             Task.Run(async () =>
             {
                 await KargatuErabiltzaileak();
                 await KargatuProduktuak();
                 await KargatuMahaiak();
+                await KargatuEskaerak();
             });
         }
 
@@ -365,6 +395,41 @@ namespace TPV_Sistema.ViewModels
             MahaiIzena = "";
             Edukiera = 0;
         }
+
+        // ESKAEREN METODOAK
+        private async Task KargatuEskaerak()
+        {
+            await using (var db = new ElkarteaDbContext())
+            {
+                var sales = await db.Eskaerak
+                    .Include(e => e.Erabiltzailea) // Erabiltzailearen datuak ere ekartzeko
+                    .OrderByDescending(e => e.Data) // Berrienak lehenengo
+                    .ToListAsync();
+
+                Application.Current.Dispatcher.Invoke(() => {
+                    Eskaerak.Clear();
+                    foreach (var sale in sales) Eskaerak.Add(sale);
+                });
+            }
+        }
+
+        private async Task KargatuEskaeraLerroak()
+        {
+            await using (var db = new ElkarteaDbContext())
+            {
+                var lerroak = await db.EskaeraLerroak
+                    .Include(l => l.Produktua) // Produktuaren izena erakusteko
+                    .Where(l => l.EskaeraId == HautatutakoEskaera.Id)
+                    .ToListAsync();
+
+                Application.Current.Dispatcher.Invoke(() => {
+                    HautatutakoEskaerarenLerroak.Clear();
+                    foreach (var lerroa in lerroak) HautatutakoEskaerarenLerroak.Add(lerroa);
+                });
+            }
+        }
+
+
     }
 }
 
