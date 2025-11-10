@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TPV_Sistema.Migrations
 {
     /// <inheritdoc />
-    public partial class HasieraBerria : Migration
+    public partial class DatuBaseZuzendua : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -63,9 +63,8 @@ namespace TPV_Sistema.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Data = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Otordua = table.Column<string>(type: "TEXT", nullable: false),
-                    ErabiltzaileId = table.Column<int>(type: "INTEGER", nullable: false),
-                    MahaiaId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ErabiltzaileaId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ErabiltzaileaId = table.Column<int>(type: "INTEGER", nullable: false),
+                    MahaiaId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -94,7 +93,6 @@ namespace TPV_Sistema.Migrations
                     Guztira = table.Column<double>(type: "REAL", nullable: false),
                     ErabiltzaileId = table.Column<int>(type: "INTEGER", nullable: false),
                     ErabiltzaileaId = table.Column<int>(type: "INTEGER", nullable: false),
-                    EskaeraId = table.Column<int>(type: "INTEGER", nullable: true),
                     ProduktuaId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
@@ -106,11 +104,6 @@ namespace TPV_Sistema.Migrations
                         principalTable: "Erabiltzaileak",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Eskaerak_Eskaerak_EskaeraId",
-                        column: x => x.EskaeraId,
-                        principalTable: "Eskaerak",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Eskaerak_Produktuak_ProduktuaId",
                         column: x => x.ProduktuaId,
@@ -160,11 +153,6 @@ namespace TPV_Sistema.Migrations
                 name: "IX_Eskaerak_ErabiltzaileaId",
                 table: "Eskaerak",
                 column: "ErabiltzaileaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Eskaerak_EskaeraId",
-                table: "Eskaerak",
-                column: "EskaeraId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Eskaerak_ProduktuaId",

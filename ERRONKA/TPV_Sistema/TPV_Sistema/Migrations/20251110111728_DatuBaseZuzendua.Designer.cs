@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TPV_Sistema.Migrations
 {
     [DbContext(typeof(ElkarteaDbContext))]
-    [Migration("20251105075930_HasieraBerria")]
-    partial class HasieraBerria
+    [Migration("20251110111728_DatuBaseZuzendua")]
+    partial class DatuBaseZuzendua
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,9 +51,6 @@ namespace TPV_Sistema.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("ErabiltzaileId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<int>("ErabiltzaileaId")
                         .HasColumnType("INTEGER");
 
@@ -88,9 +85,6 @@ namespace TPV_Sistema.Migrations
                     b.Property<int>("ErabiltzaileaId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("EskaeraId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<double>("Guztira")
                         .HasColumnType("REAL");
 
@@ -100,8 +94,6 @@ namespace TPV_Sistema.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ErabiltzaileaId");
-
-                    b.HasIndex("EskaeraId");
 
                     b.HasIndex("ProduktuaId");
 
@@ -201,10 +193,6 @@ namespace TPV_Sistema.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TPV_Sistema.Models.Eskaera", null)
-                        .WithMany("Lerroak")
-                        .HasForeignKey("EskaeraId");
-
                     b.HasOne("TPV_Sistema.Models.Produktua", null)
                         .WithMany("EskaeraLerroak")
                         .HasForeignKey("ProduktuaId");
@@ -215,7 +203,7 @@ namespace TPV_Sistema.Migrations
             modelBuilder.Entity("TPV_Sistema.Models.EskaeraLerroa", b =>
                 {
                     b.HasOne("TPV_Sistema.Models.Eskaera", "Eskaera")
-                        .WithMany()
+                        .WithMany("Lerroak")
                         .HasForeignKey("EskaeraId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

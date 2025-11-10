@@ -13,7 +13,7 @@ namespace TPV_Sistema.Models
         public string Otordua { get; set; } // "bazkaria" edo "afaria"
 
         // Erlazioak beste taula batzuekin (Foreign Keys)
-        public int ErabiltzaileId { get; set; }
+        public int ErabiltzaileaId { get; set; }
         public int MahaiaId { get; set; }
 
         // Nabigazio-propietateak (EF Core-k erlazioak ulertzeko)

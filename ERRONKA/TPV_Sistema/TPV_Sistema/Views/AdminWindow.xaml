@@ -6,8 +6,116 @@
         xmlns:local="clr-namespace:TPV_Sistema.Views"
         mc:Ignorable="d"
         Title="Administrazio Panela" Height="450" Width="800">
-    <Grid>
-        <TextBlock Text="KAIXO ADMIN!" FontSize="48" FontWeight="Bold" 
-                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </Grid>
+    <TabControl>
+        <TabItem Header="Erabiltzaileen Kudeaketa">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Erabiltzaileen zerrenda -->
+                <DataGrid Grid.Column="0" Margin="0,0,10,0"
+                          ItemsSource="{Binding Erabiltzaileak}"
+                          SelectedItem="{Binding HautatutakoErabiltzailea}"
+                          IsReadOnly="True" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                        <DataGridTextColumn Header="Erabiltzaile Izena" Binding="{Binding ErabiltzaileIzena}" Width="*"/>
+                        <DataGridTextColumn Header="Rola" Binding="{Binding Rola}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Datuak sartzeko formularioa -->
+                <StackPanel Grid.Column="1">
+                    <Label Content="Erabiltzaile Izena:"/>
+                    <TextBox Text="{Binding ErabiltzaileIzena, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+                    <Label Content="Pasahitza:"/>
+                    <TextBox Text="{Binding Pasahitza, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+                    <Label Content="Rola (admin/erabiltzailea):"/>
+                    <TextBox Text="{Binding Rola, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
+
+                    <!-- Botoiak -->
+                    <Button Content="Gehitu Berria" Command="{Binding GehituAgindua}" Margin="0,5"/>
+                    <Button Content="Aldatu" Command="{Binding AldatuAgindua}" Margin="0,5"/>
+                    <Button Content="Ezabatu" Command="{Binding EzabatuAgindua}" Background="IndianRed" Margin="0,5"/>
+                    <Button Content="Garbitu" Command="{Binding GarbituAgindua}" Margin="0,20,0,0"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+
+        <TabItem Header="Produktuen Kudeaketa">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Produktuen zerrenda -->
+                <DataGrid Grid.Column="0" Margin="0,0,10,0"
+                          ItemsSource="{Binding Produktuak}"
+                          SelectedItem="{Binding HautatutakoProduktua}"
+                          IsReadOnly="True" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                        <DataGridTextColumn Header="Produktu Izena" Binding="{Binding Izena}" Width="*"/>
+                        <DataGridTextColumn Header="Prezioa" Binding="{Binding Prezioa, StringFormat={}{0:C}}" Width="*"/>
+                        <DataGridTextColumn Header="Stocka" Binding="{Binding Stocka}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Datuak sartzeko formularioa -->
+                <StackPanel Grid.Column="1">
+                    <Label Content="Produktuaren Izena:"/>
+                    <TextBox Text="{Binding ProduktuIzena, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+                    <Label Content="Prezioa:"/>
+                    <TextBox Text="{Binding PrezioaString, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+                    <Label Content="Stock Kantitatea:"/>
+                    <TextBox Text="{Binding Stocka, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
+
+                    <!-- Botoiak -->
+                    <Button Content="Gehitu Berria" Command="{Binding GehituProduktuAgindua}" Margin="0,5"/>
+                    <Button Content="Aldatu" Command="{Binding AldatuProduktuAgindua}" Margin="0,5"/>
+                    <Button Content="Ezabatu" Command="{Binding EzabatuProduktuAgindua}" Background="IndianRed" Margin="0,5"/>
+                    <Button Content="Garbitu" Command="{Binding GarbituProduktuAgindua}" Margin="0,20,0,0"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Mahaien Kudeaketa">
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <DataGrid Grid.Column="0" Margin="0,0,10,0"
+                          ItemsSource="{Binding Mahaiak}"
+                          SelectedItem="{Binding HautatutakoMahaia}"
+                          IsReadOnly="True" AutoGenerateColumns="False">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
+                        <DataGridTextColumn Header="Mahai Izena" Binding="{Binding MahaiIzena}" Width="*"/>
+                        <DataGridTextColumn Header="Edukiera" Binding="{Binding Edukiera}" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <StackPanel Grid.Column="1">
+                    <Label Content="Mahai Izena:"/>
+                    <TextBox Text="{Binding MahaiIzena, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
+
+                    <Label Content="Edukiera (pertsonak):"/>
+                    <TextBox Text="{Binding Edukiera, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
+
+                    <Button Content="Gehitu Berria" Command="{Binding GehituMahaiAgindua}" Margin="0,5"/>
+                    <Button Content="Hautatutakoa Aldatu" Command="{Binding AldatuMahaiAgindua}" Margin="0,5"/>
+                    <Button Content="Hautatutakoa Ezabatu" Command="{Binding EzabatuMahaiAgindua}" Background="IndianRed" Margin="0,5"/>
+                    <Button Content="Garbitu" Command="{Binding GarbituMahaiAgindua}" Margin="0,20,0,0"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

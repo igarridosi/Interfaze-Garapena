@@ -11,17 +11,17 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TPV_Sistema.ViewModels;
 
 namespace TPV_Sistema.Views
 {
-    /// <summary>
-    /// Interaction logic for AdminWindow.xaml
-    /// </summary>
     public partial class AdminWindow : Window
     {
         public AdminWindow()
         {
             InitializeComponent();
+            // Hemen lotzen ditugu View-a eta ViewModel-a
+            this.DataContext = new AdminViewModel();
         }
     }
 }

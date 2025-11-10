@@ -6,8 +6,126 @@
         xmlns:local="clr-namespace:TPV_Sistema.Views"
         mc:Ignorable="d"
         Title="TPV - Elkartea" Height="600" Width="1000">
-    <Grid>
-        <TextBlock Text="KAIXO ERABILTZAILE!" FontSize="48" FontWeight="Bold" 
-                   HorizontalAlignment="Center" VerticalAlignment="Center"/>
-    </Grid>
+    <TabControl>
+
+        <!-- 1. FITXA: TPV -->
+        <TabItem Header="TPV">
+            <!-- Hemen zure jatorrizko Grid osoa itsasten dugu, aldaketarik gabe -->
+            <Grid Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <!-- Ticket-aren zatia -->
+                    <ColumnDefinition Width="2*"/>
+                    <!-- Produktuen zatia -->
+                </Grid.ColumnDefinitions>
+
+                <!-- EZKERREKO PANELA: TICKET ETA TOTALAK -->
+                <Grid Grid.Column="0" Margin="0,0,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <DataGrid Grid.Row="0" ItemsSource="{Binding UnekoTicket}" IsReadOnly="True"
+                              AutoGenerateColumns="False" CanUserAddRows="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Produktua" Binding="{Binding Produktua.Izena}" Width="*"/>
+                            <DataGridTextColumn Header="Kant." Binding="{Binding Kantitatea}" Width="Auto"/>
+                            <DataGridTextColumn Header="Prezioa" Binding="{Binding PrezioaUnitateko, StringFormat={}{0:C}}" Width="*"/>
+                            <DataGridTextColumn Header="Totala" Binding="{Binding LerroarenTotala, StringFormat={}{0:C}}" Width="*"/>
+                            <DataGridTemplateColumn Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="-" Background="IndianRed" Foreground="White"
+                                                Command="{Binding DataContext.EzabatuLerroaAgindua, RelativeSource={RelativeSource AncestorType=Window}}"
+                                                CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Grid.Row="1" Margin="0,10,0,0">
+                        <TextBlock Text="{Binding Subtotala, StringFormat='Subtotala: {0:C}'}" FontSize="18" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding Totala, StringFormat='TOTALA: {0:C}'}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,5,0,0"/>
+                        <Button Content="SALMENTA GORDE" Command="{Binding GordeTicketAgindua}" Height="50" FontSize="18" FontWeight="Bold" Background="ForestGreen" Margin="0,10,0,0"/>
+                        <Button Content="TICKET-A GARBITU" Command="{Binding GarbituTicketAgindua}" Height="30" Margin="0,5,0,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- ESKUINEKO PANELA: PRODUKTUEN HAUTAKETA -->
+                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
+                    <ItemsControl ItemsSource="{Binding ProduktuGuztiak}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Content="{Binding Izena}"
+                                        Command="{Binding DataContext.GehituProduktuTicketeraAgindua, RelativeSource={RelativeSource AncestorType=Window}}"
+                                        CommandParameter="{Binding}"
+                                        Width="120" Height="80" Margin="5"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+
+        <!-- 2. FITXA: MAHAIEN ERRESERBA -->
+        <TabItem Header="Mahaien Erreserba">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- GOIKO PANELA: ERRESERBA BERRIA EGIN -->
+                <Border BorderBrush="Gainsboro" BorderThickness="1" Padding="10" CornerRadius="5">
+                    <StackPanel Grid.Row="0" Orientation="Horizontal">
+                        <StackPanel Margin="0,0,20,0">
+                            <Label Content="Eguna:" FontWeight="SemiBold"/>
+                            <DatePicker SelectedDate="{Binding HautatutakoData}" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,0">
+                            <Label Content="Mahaia:" FontWeight="SemiBold"/>
+                            <ComboBox ItemsSource="{Binding Mahaiak}" DisplayMemberPath="MahaiIzena"
+                                      SelectedItem="{Binding HautatutakoMahaia}" Width="150"/>
+                        </StackPanel>
+                        <StackPanel Margin="0,0,20,0">
+                            <Label Content="Otordua:" FontWeight="SemiBold"/>
+                            <ComboBox ItemsSource="{Binding Otorduak}" 
+                                      SelectedItem="{Binding HautatutakoOtordua}" Width="120"/>
+                        </StackPanel>
+                        <Button Content="Erreserba Egin" Command="{Binding EginErreserbaAgindua}" 
+                                VerticalAlignment="Bottom" Height="30" Padding="10,0" Background="CornflowerBlue" Foreground="White"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- BEHEKO PANELA: NIRE ERRESERBAK -->
+                <Grid Grid.Row="1" Margin="0,20,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="NIRE DATOZEN ERRESERBAK" FontSize="16" FontWeight="Bold"/>
+                    <DataGrid Grid.Row="1" Margin="0,10" ItemsSource="{Binding NireErreserbak}" 
+                              SelectedItem="{Binding HautatutakoErreserba}"
+                              IsReadOnly="True" AutoGenerateColumns="False">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Data" Binding="{Binding Data, StringFormat='yyyy-MM-dd'}" Width="*"/>
+                            <DataGridTextColumn Header="Mahaia" Binding="{Binding Mahaia.MahaiIzena}" Width="*"/>
+                            <DataGridTextColumn Header="Otordua" Binding="{Binding Otordua}" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Grid.Row="2" Content="Hautatutako Erreserba Ezabatu" 
+                            Command="{Binding EzabatuErreserbaAgindua}" HorizontalAlignment="Left" Background="IndianRed" Foreground="White"/>
+                </Grid>
+            </Grid>
+        </TabItem>
+
+    </TabControl>
 </Window>

@@ -61,7 +61,7 @@ namespace TPV_Sistema.ViewModels
                         }
                         else
                         {
-                            var erabiltzaileWindow = new ErabiltzaileWindow();
+                            var erabiltzaileWindow = new ErabiltzaileWindow(erabiltzailea);
                             erabiltzaileWindow.Show();
                         }
 

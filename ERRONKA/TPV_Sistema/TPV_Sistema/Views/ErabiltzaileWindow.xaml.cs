@@ -11,17 +11,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TPV_Sistema.Models;
+using TPV_Sistema.ViewModels;
 
 namespace TPV_Sistema.Views
 {
-    /// <summary>
-    /// Interaction logic for ErabiltzaileWindow.xaml
-    /// </summary>
     public partial class ErabiltzaileWindow : Window
     {
-        public ErabiltzaileWindow()
+        public ErabiltzaileWindow(Erabiltzailea logeatutakoErabiltzailea)
         {
             InitializeComponent();
+            // Erabiltzaile objektua jaso eta ViewModel-ari pasatu
+            this.DataContext = new ErabiltzaileViewModel(logeatutakoErabiltzailea);
         }
     }
 }
