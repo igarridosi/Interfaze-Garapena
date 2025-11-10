@@ -68,7 +68,7 @@ namespace TPV_Sistema.ViewModels
                 {
                     ProduktuIzena = value.Izena;
                     PrezioaString = value.Prezioa.ToString();
-                    Stocka = value.Stocka;
+                    StockaString = value.Stocka.ToString();
                 }
                 OnPropertyChanged();
             }
@@ -80,8 +80,8 @@ namespace TPV_Sistema.ViewModels
         private string _prezioaString;
         public string PrezioaString { get => _prezioaString; set { _prezioaString = value; OnPropertyChanged(); } }
 
-        private int _stocka;
-        public int Stocka { get => _stocka; set { _stocka = value; OnPropertyChanged(); } }
+        private string _stockaString;
+        public string StockaString { get => _stockaString; set { _stockaString = value; OnPropertyChanged(); } }
 
         public RelayCommand GehituProduktuAgindua { get; private set; }
         public RelayCommand AldatuProduktuAgindua { get; private set; }
@@ -100,7 +100,7 @@ namespace TPV_Sistema.ViewModels
                 if (value != null)
                 {
                     MahaiIzena = value.MahaiIzena;
-                    Edukiera = value.Edukiera;
+                    EdukieraString = value.Edukiera.ToString();
                 }
                 OnPropertyChanged();
             }
@@ -133,8 +133,8 @@ namespace TPV_Sistema.ViewModels
         private string _mahaiIzena;
         public string MahaiIzena { get => _mahaiIzena; set { _mahaiIzena = value; OnPropertyChanged(); } }
 
-        private int _edukiera;
-        public int Edukiera { get => _edukiera; set { _edukiera = value; OnPropertyChanged(); } }
+        private string _edukieraString;
+        public string EdukieraString { get => _edukieraString; set { _edukieraString = value; OnPropertyChanged(); } }
 
         public RelayCommand GehituMahaiAgindua { get; private set; }
         public RelayCommand AldatuMahaiAgindua { get; private set; }
@@ -276,10 +276,16 @@ namespace TPV_Sistema.ViewModels
                 return;
             }
 
+            if (!int.TryParse(this.StockaString, out int stockNumerikoa))
+            {
+                MessageBox.Show("Sartutako stock-aren formatua ez da zuzena.", "Errorea", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             // 2. Gorde datu-basean
             await using (var db = new ElkarteaDbContext())
             {
-                var berria = new Produktua { Izena = this.ProduktuIzena, Prezioa = prezioNumerikoa, Stocka = this.Stocka };
+                var berria = new Produktua { Izena = this.ProduktuIzena, Prezioa = prezioNumerikoa, Stocka = stockNumerikoa };
                 db.Produktuak.Add(berria);
                 await db.SaveChangesAsync();
                 Produktuak.Add(berria);
@@ -298,13 +304,19 @@ namespace TPV_Sistema.ViewModels
                 return;
             }
 
+            if (!int.TryParse(this.StockaString, out int stockNumerikoa))
+            {
+                MessageBox.Show("Sartutako stock-aren formatua ez da zuzena.", "Errorea", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             // 2. Eguneratu datu-basean
             var updatedProduktua = new Produktua
             {
                 Id = HautatutakoProduktua.Id,
                 Izena = this.ProduktuIzena,
                 Prezioa = prezioNumerikoa,
-                Stocka = this.Stocka
+                Stocka = stockNumerikoa
             };
 
             await using (var db = new ElkarteaDbContext())
@@ -336,7 +348,7 @@ namespace TPV_Sistema.ViewModels
             HautatutakoProduktua = null;
             ProduktuIzena = "";
             PrezioaString = "0";
-            Stocka = 0;
+            StockaString = "0";
         }
 
         // MAHAIEN METODOAK
@@ -354,7 +366,12 @@ namespace TPV_Sistema.ViewModels
 
         private async Task GehituMahaia()
         {
-            var berria = new Mahaia { MahaiIzena = this.MahaiIzena, Edukiera = this.Edukiera };
+            if (!int.TryParse(this.EdukieraString, out int edukieraNumerikoa))
+            {
+                MessageBox.Show("Sartutako edukiaren-aren formatua ez da zuzena.", "Errorea", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            var berria = new Mahaia { MahaiIzena = this.MahaiIzena, Edukiera = edukieraNumerikoa };
             await using (var db = new ElkarteaDbContext())
             {
                 db.Mahaiak.Add(berria);
@@ -366,8 +383,13 @@ namespace TPV_Sistema.ViewModels
 
         private async Task AldatuMahaia()
         {
+            if (!int.TryParse(this.EdukieraString, out int edukieraNumerikoa))
+            {
+                MessageBox.Show("Sartutako edukiaren-aren formatua ez da zuzena.", "Errorea", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             if (HautatutakoMahaia == null) return;
-            var updatedMahaia = new Mahaia { Id = HautatutakoMahaia.Id, MahaiIzena = this.MahaiIzena, Edukiera = this.Edukiera };
+            var updatedMahaia = new Mahaia { Id = HautatutakoMahaia.Id, MahaiIzena = this.MahaiIzena, Edukiera = edukieraNumerikoa };
             await using (var db = new ElkarteaDbContext())
             {
                 db.Mahaiak.Update(updatedMahaia);
@@ -393,7 +415,7 @@ namespace TPV_Sistema.ViewModels
         {
             HautatutakoMahaia = null;
             MahaiIzena = "";
-            Edukiera = 0;
+            EdukieraString = "0";
         }
 
         // ESKAEREN METODOAK

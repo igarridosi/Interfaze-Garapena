@@ -364,19 +364,42 @@ namespace TPV_Sistema.ViewModels
         {
             if (eskaera == null) return;
 
+            string filePath = string.Empty;
+
             try
             {
+                string baseDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
+                // "Tickets" azpi-karpeta bat definitu
+                string ticketsDirectory = Path.Combine(baseDirectory, "Tickets");
+
+                // Egiaztatu karpeta hori existitzen den; ez bada, sortu
+                Directory.CreateDirectory(ticketsDirectory);
+
+                // Fitxategiaren bide osoa eraiki
+                filePath = Path.Combine(ticketsDirectory, $"Ticket_{eskaera.Id}_{eskaera.Data:yyyyMMdd_HHmmss}.pdf");
+
                 var document = new TicketDocument(eskaera);
-                string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + @"\Downloads\";
-                string filePath = Path.Combine(downloadsPath, $"Ticket_{eskaera.Id}_{eskaera.Data:yyyyMMdd_HHmmss}.pdf");
                 document.GeneratePdf(filePath);
 
-                var processStartInfo = new ProcessStartInfo(filePath) { UseShellExecute = true };
-                Process.Start(processStartInfo);
+                if (File.Exists(filePath))
+                {
+                    // Fitxategia ireki
+                    var processStartInfo = new ProcessStartInfo(filePath)
+                    {
+                        UseShellExecute = true // GARRANTZITSUA .pdf-ak sistema eragilearen programa lehenetsiarekin irekitzeko
+                    };
+                    Process.Start(processStartInfo);
+                }
+                else
+                {
+                    // Fitxategia ez bada sortu, errore espezifiko bat bota
+                    throw new FileNotFoundException("PDFa sortu behar zen, baina ezin izan da fitxategia aurkitu irekitzeko.", filePath);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Errore bat gertatu da ticketa inprimatzean: {ex.Message}", "Inprimaketa Errorea", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show($"Errore bat gertatu da ticketa kudeatzean:\n\n{ex.Message}\n\nFitxategiaren bidea: {filePath}", "Inprimaketa Errorea", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace TPV_Sistema.Migrations
 {
     [DbContext(typeof(ElkarteaDbContext))]
-    [Migration("20251110111728_DatuBaseZuzendua")]
+    [Migration("20251110190952_DatuBaseZuzendua")]
     partial class DatuBaseZuzendua
     {
         /// <inheritdoc />

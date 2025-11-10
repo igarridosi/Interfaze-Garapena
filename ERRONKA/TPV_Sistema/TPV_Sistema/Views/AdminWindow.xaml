@@ -75,7 +75,7 @@
                     <TextBox Text="{Binding PrezioaString, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
 
                     <Label Content="Stock Kantitatea:"/>
-                    <TextBox Text="{Binding Stocka, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
+                    <TextBox Text="{Binding StockaString, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
 
                     <!-- Botoiak -->
                     <Button Content="Gehitu Berria" Command="{Binding GehituProduktuAgindua}" Margin="0,5"/>
@@ -108,7 +108,7 @@
                     <TextBox Text="{Binding MahaiIzena, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
 
                     <Label Content="Edukiera (pertsonak):"/>
-                    <TextBox Text="{Binding Edukiera, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
+                    <TextBox Text="{Binding EdukieraString, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,20"/>
 
                     <Button Content="Gehitu Berria" Command="{Binding GehituMahaiAgindua}" Margin="0,5"/>
                     <Button Content="Hautatutakoa Aldatu" Command="{Binding AldatuMahaiAgindua}" Margin="0,5"/>
