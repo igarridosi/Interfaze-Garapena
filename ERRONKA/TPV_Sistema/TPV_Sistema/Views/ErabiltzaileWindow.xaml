@@ -45,7 +45,8 @@
                     </DataGrid>
 
                     <StackPanel Grid.Row="1" Margin="0,10,0,0">
-                        <TextBlock Text="{Binding Subtotala, StringFormat='Subtotala: {0:C}'}" FontSize="18" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding Subtotala, StringFormat='Oinarria (BEZ gabe): {0:C}'}" FontSize="16" HorizontalAlignment="Right"/>
+                        <TextBlock Text="{Binding BezZenbatekoa, StringFormat='BEZ-a (%21): {0:C}'}" FontSize="16" HorizontalAlignment="Right"/>
                         <TextBlock Text="{Binding Totala, StringFormat='TOTALA: {0:C}'}" FontSize="24" FontWeight="Bold" HorizontalAlignment="Right" Margin="0,5,0,0"/>
 
                         <Button Content="SALMENTA GORDE" Command="{Binding GordeTicketAgindua}" Height="50" FontSize="18" FontWeight="Bold" Background="ForestGreen" Margin="0,10,0,0"/>
@@ -55,23 +56,71 @@
                 </Grid>
 
                 <!-- ESKUINEKO PANELA: PRODUKTUEN HAUTAKETA -->
-                <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto">
-                    <ItemsControl ItemsSource="{Binding ProduktuGuztiak}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button Content="{Binding Izena}"
-                                        Command="{Binding DataContext.GehituProduktuTicketeraAgindua, RelativeSource={RelativeSource AncestorType=Window}}"
-                                        CommandParameter="{Binding}"
-                                        Width="120" Height="80" Margin="5"/>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
+				<Grid Grid.Column="1">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<!-- Zenbaki teklaturako -->
+						<RowDefinition Height="*"/>
+						<!-- Produktuen zerrendarako -->
+					</Grid.RowDefinitions>
+
+                    <!-- ZENBAKI-TEKLATUA (NUMPAD) - Bertsio Zuzendua -->
+                    <Border Grid.Row="0" BorderBrush="Gainsboro" BorderThickness="1" CornerRadius="5" Padding="5" Margin="5,0,5,10">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <!-- Errenkada gehigarria 0-rako -->
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Text="{Binding KantitateaKatean}" FontSize="32" TextAlignment="Right" VerticalAlignment="Center" Margin="5"/>
+                            <Button Grid.Column="2" Grid.Row="4" Grid.RowSpan="1" Content="C" Command="{Binding GarbituKantitateaAgindua}" Background="IndianRed" Height="Auto" Margin="2" FontSize="20" FontWeight="Bold"/>
+
+                            <Button Grid.Column="0" Grid.Row="1" Content="7" Command="{Binding GehituDigitoaAgindua}" CommandParameter="7" Height="40" Margin="2"/>
+                            <Button Grid.Column="1" Grid.Row="1" Content="8" Command="{Binding GehituDigitoaAgindua}" CommandParameter="8" Height="40" Margin="2"/>
+                            <Button Grid.Column="2" Grid.Row="1" Content="9" Command="{Binding GehituDigitoaAgindua}" CommandParameter="9" Height="40" Margin="2"/>
+
+                            <Button Grid.Column="0" Grid.Row="2" Content="4" Command="{Binding GehituDigitoaAgindua}" CommandParameter="4" Height="40" Margin="2"/>
+                            <Button Grid.Column="1" Grid.Row="2" Content="5" Command="{Binding GehituDigitoaAgindua}" CommandParameter="5" Height="40" Margin="2"/>
+                            <Button Grid.Column="2" Grid.Row="2" Content="6" Command="{Binding GehituDigitoaAgindua}" CommandParameter="6" Height="40" Margin="2"/>
+
+                            <Button Grid.Column="0" Grid.Row="3" Content="1" Command="{Binding GehituDigitoaAgindua}" CommandParameter="1" Height="40" Margin="2"/>
+                            <Button Grid.Column="1" Grid.Row="3" Content="2" Command="{Binding GehituDigitoaAgindua}" CommandParameter="2" Height="40" Margin="2"/>
+                            <Button Grid.Column="2" Grid.Row="3" Content="3" Command="{Binding GehituDigitoaAgindua}" CommandParameter="3" Height="40" Margin="2"/>
+
+                            <!-- 0 botoia behealdean eta zutabe bat baino gehiago hartuz -->
+                            <Button Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="2" Content="0" Command="{Binding GehituDigitoaAgindua}" CommandParameter="0" Height="40" Margin="2"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Produktuen zerrenda orain Grid-aren bigarren errenkadan dago -->
+					<ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+						<ItemsControl ItemsSource="{Binding ProduktuGuztiak}">
+							<ItemsControl.ItemsPanel>
+								<ItemsPanelTemplate>
+									<WrapPanel/>
+								</ItemsPanelTemplate>
+							</ItemsControl.ItemsPanel>
+							<ItemsControl.ItemTemplate>
+								<DataTemplate>
+									<Button Content="{Binding Izena}"
+											Command="{Binding DataContext.GehituProduktuTicketeraAgindua, RelativeSource={RelativeSource AncestorType=Window}}"
+											CommandParameter="{Binding}"
+											Width="120" Height="80" Margin="5"/>
+								</DataTemplate>
+							</ItemsControl.ItemTemplate>
+						</ItemsControl>
+					</ScrollViewer>
+				</Grid>
             </Grid>
         </TabItem>
 

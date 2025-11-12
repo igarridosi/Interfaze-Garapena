@@ -13,10 +13,14 @@ namespace TPV_Sistema.Services
     public class TicketDocument : IDocument
     {
         private readonly Eskaera _eskaera;
+        private readonly double _subtotala;
+        private readonly double _bezZenbatekoa;
 
-        public TicketDocument(Eskaera eskaera)
+        public TicketDocument(Eskaera eskaera, double subtotala, double bezZenbatekoa)
         {
             _eskaera = eskaera;
+            _subtotala = subtotala;
+            _bezZenbatekoa = bezZenbatekoa;
         }
 
         public void Compose(IDocumentContainer container)
@@ -88,7 +92,19 @@ namespace TPV_Sistema.Services
             container.Column(column =>
             {
                 column.Item().LineHorizontal(1).LineColor(Colors.Grey.Lighten1);
+                column.Spacing(5);
+
+                // Oinarria (Subtotala)
+                column.Item().AlignRight().Text($"Oinarria: {_subtotala:C}");
+
+                // BEZ-a
+                column.Item().AlignRight().Text($"BEZ-a (%21): {_bezZenbatekoa:C}");
+
+                // TOTALA
                 column.Item().AlignRight().Text($"TOTALA: {_eskaera.Guztira:C}").Bold().FontSize(14);
+
+                column.Item();
+                column.Spacing(10);
                 column.Item().AlignCenter().Text("Eskerrik asko!").Italic();
             });
         }

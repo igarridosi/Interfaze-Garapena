@@ -60,6 +60,21 @@ namespace TPV_Sistema.ViewModels
         // TICKET PDF
         public RelayCommand InprimatuTicketAgindua { get; private set; }
 
+        // KANTITATEA
+        private string _kantitateaKatean = "0";
+        public string KantitateaKatean
+        {
+            get => _kantitateaKatean;
+            set { _kantitateaKatean = value; OnPropertyChanged(); }
+        }
+
+        public RelayCommand GehituDigitoaAgindua { get; private set; }
+        public RelayCommand GarbituKantitateaAgindua { get; private set; }
+
+        private const double BEZ_TASA = 0.21; // %21eko BEZ-a
+
+        private double _bezZenbatekoa;
+        public double BezZenbatekoa { get => _bezZenbatekoa; set { _bezZenbatekoa = value; OnPropertyChanged(); } }
 
         public ErabiltzaileViewModel(Erabiltzailea erabiltzailea)
         {
@@ -84,6 +99,9 @@ namespace TPV_Sistema.ViewModels
             // TICKET
             GordeTicketAgindua = new RelayCommand(async (p) => await GordeEtaInprimatuAukera(), (p) => UnekoTicket.Any());
 
+            GehituDigitoaAgindua = new RelayCommand(GehituDigitoa);
+            GarbituKantitateaAgindua = new RelayCommand(GarbituKantitatea);
+
             // UnekoTicket bilduma aldatzen den bakoitzean, totalak birkalkulatu
             UnekoTicket.CollectionChanged += (s, e) => KalkulatuTotalak();
 
@@ -97,6 +115,26 @@ namespace TPV_Sistema.ViewModels
                 await KargatuNireErreserbak();
             });
             */
+        }
+
+        private void GehituDigitoa(object parameter)
+        {
+            var digitoa = parameter as string;
+            if (string.IsNullOrEmpty(digitoa)) return;
+
+            if (KantitateaKatean == "0")
+            {
+                KantitateaKatean = digitoa;
+            }
+            else
+            {
+                KantitateaKatean += digitoa;
+            }
+        }
+
+        private void GarbituKantitatea(object parameter)
+        {
+            KantitateaKatean = "0";
         }
 
         private async Task InitializeAsync()
@@ -135,13 +173,19 @@ namespace TPV_Sistema.ViewModels
         {
             if (parameter is Produktua produktua)
             {
+                // 1. Irakurri eta bihurtu kantitatea
+                if (!int.TryParse(KantitateaKatean, out int kantitatea) || kantitatea <= 0)
+                {
+                    kantitatea = 1;
+                }
+
                 // Egiaztatu produktua jada ticket-ean dagoen
                 var lerroa = UnekoTicket.FirstOrDefault(l => l.ProduktuaId == produktua.Id);
 
                 if (lerroa != null)
                 {
                     // Jada badago, kantitatea handitu
-                    lerroa.Kantitatea++;
+                    lerroa.Kantitatea += kantitatea;
                     // Propietateen aldaketak jakinarazteko, EskaeraLerroa klasea aldatu beharko dugu
                     OnPropertyChanged(nameof(UnekoTicket)); // Trikimailu bat interfazea freskatzeko
                 }
@@ -152,11 +196,12 @@ namespace TPV_Sistema.ViewModels
                     {
                         ProduktuaId = produktua.Id,
                         Produktua = produktua, // Nabigazio-propietatea bete
-                        Kantitatea = 1,
+                        Kantitatea = kantitatea,
                         PrezioaUnitateko = produktua.Prezioa
                     });
                 }
             }
+            GarbituKantitatea(null);
             KalkulatuTotalak();
         }
 
@@ -180,8 +225,12 @@ namespace TPV_Sistema.ViewModels
         private void KalkulatuTotalak()
         {
             Subtotala = UnekoTicket.Sum(l => l.Kantitatea * l.PrezioaUnitateko);
-            Totala = Subtotala; // Momentuz ez dugu zergarik gehituko
+
+            BezZenbatekoa = Subtotala * BEZ_TASA;
+
+            Totala = Subtotala + BezZenbatekoa; // Momentuz ez dugu zergarik gehituko
             OnPropertyChanged(nameof(Subtotala)); // Propietatearen aldaketaren berri eman
+            OnPropertyChanged(nameof(BezZenbatekoa));
             OnPropertyChanged(nameof(Totala));
         }
 
@@ -379,7 +428,7 @@ namespace TPV_Sistema.ViewModels
                 // Fitxategiaren bide osoa eraiki
                 filePath = Path.Combine(ticketsDirectory, $"Ticket_{eskaera.Id}_{eskaera.Data:yyyyMMdd_HHmmss}.pdf");
 
-                var document = new TicketDocument(eskaera);
+                var document = new TicketDocument(eskaera, this.Subtotala, this.BezZenbatekoa);
                 document.GeneratePdf(filePath);
 
                 if (File.Exists(filePath))
