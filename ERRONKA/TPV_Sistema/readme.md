@@ -80,7 +80,7 @@ Hasteko, `admin` erabiltzailea sortu dezakezu datu-basean sartuz [DB Browser for
     *   **Pasahitza:** `user`
     *   **Rola:** `erabiltzailea`
 
-Bestela, azkar batean frogatzeko TPV Sistema badabilela, (`Data/`) direktorioaren barruan `elkartea.db` aurrez sortutako Datu Base fitxategia kopiatu. Hau erabiltzeko lehen dabizi, aipatu den bezela `.sln` fitxategia ireki eta aplikazioa exekutatu, **F5** sakatuz. Ondoren (`bin\Debug\net8.0-windows`) barruan, itsatsi `elkartea.db` fitxategia.
+Bestela, azkar batean frogatzeko TPV Sistema badabilela, (`Data/`) direktorioaren barruan `elkartea.db` aurrez sortutako Datu Base fitxategia kopiatu. Hau erabiltzeko lehendabizi, aipatu den bezela `.sln` fitxategia ireki eta aplikazioa exekutatu, **F5** sakatuz. Ondoren (`bin\Debug\net8.0-windows`) barruan, itsatsi `elkartea.db` fitxategia.
 
 ---
 
