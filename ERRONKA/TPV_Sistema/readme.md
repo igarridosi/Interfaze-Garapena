@@ -73,9 +73,12 @@ Hasteko, `admin` erabiltzailea sortu dezakezu administratzaile paneletik edo zuz
 *   **Administratzailea:**
     *   **Erabiltzailea:** `admin`
     *   **Pasahitza:** `admin`
+    *   **Rola:** `admin`
+
 *   **Erabiltzaile Arrunta:**
     *   **Erabiltzailea:** `user`
     *   **Pasahitza:** `user`
+    *   **Rola:** `erabiltzailea`
 
 ---
 
