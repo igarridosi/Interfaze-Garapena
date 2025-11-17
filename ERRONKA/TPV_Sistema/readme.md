@@ -48,13 +48,13 @@ Proiektu hau zure ordenagailuan exekutatzeko, jarraitu pauso hauek:
 
 1.  **Errepositorioa Klonatu:**
     ```sh
-    git clone https://github.com/igarridosi/Interfaze-Garapena/new/main/ERRONKA/TPV_Sistema
+    git clone https://github.com/igarridosi/Interfaze-Garapena/
     ```
 
 2.  **Ireki Proiektua Visual Studion:**
     *   Ireki Visual Studio.
     *   Hautatu "Open a project or solution".
-    *   Nabigatu klonatu duzun karpetara eta ireki `.sln` fitxategia.
+    *   Nabigatu (`ERRONKA\TPV_Sistema`) direktoriora eta ireki `.sln` fitxategia.
 
 3.  **Lehen Konpilazioa:**
     *   Proiektua ireki ondoren, Visual Studio-k beharrezko NuGet paketeak automatikoki berreskuratuko ditu.
@@ -68,7 +68,7 @@ Datu-base hau hasieran hutsik egongo da. Aplikazioa probatzeko, administratzaile
 
 #### Proba Kredentzialak | Test Credentials
 
-Hasteko, `admin` erabiltzailea sortu dezakezu administratzaile paneletik edo zuzenean datu-basean sartuz [DB Browser for SQLite](https://sqlitebrowser.org/) bezalako tresna batekin.
+Hasteko, `admin` erabiltzailea sortu dezakezu datu-basean sartuz [DB Browser for SQLite](https://sqlitebrowser.org/) bezalako tresna batekin.
 
 *   **Administratzailea:**
     *   **Erabiltzailea:** `admin`
@@ -79,6 +79,8 @@ Hasteko, `admin` erabiltzailea sortu dezakezu administratzaile paneletik edo zuz
     *   **Erabiltzailea:** `user`
     *   **Pasahitza:** `user`
     *   **Rola:** `erabiltzailea`
+
+Bestela, azkar batean frogatzeko TPV Sistema badabilela, (`Data/`) direktorioaren barruan `elkartea.db` aurrez sortutako Datu Base fitxategia kopiatu. Hau erabiltzeko lehen dabizi, aipatu den bezela `.sln` fitxategia ireki eta aplikazioa exekutatu, **F5** sakatuz. Ondoren (`bin\Debug\net8.0-windows`) barruan, itsatsi `elkartea.db` fitxategia.
 
 ---
 
