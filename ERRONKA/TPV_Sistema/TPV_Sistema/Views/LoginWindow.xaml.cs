@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,8 +24,18 @@ namespace TPV_Sistema.Views
         public LoginWindow()
         {
             InitializeComponent();
-            // Hemen lotzen ditugu View-a eta ViewModel-a
             this.DataContext = new LoginViewModel();
+        }
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            // Aplikazioan irekita dagoen leiho bakarra hau bada,
+            // esan nahi du erabiltzaileak 'X' botoiari eman diola eta aplikazioa itxi nahi duela.
+            if (Application.Current.Windows.OfType<Window>().Count() == 1)
+            {
+                Application.Current.Shutdown();
+            }
+
+            base.OnClosing(e);
         }
     }
 }

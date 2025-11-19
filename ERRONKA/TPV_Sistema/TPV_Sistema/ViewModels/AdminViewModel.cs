@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using TPV_Sistema.Models;
+using static QuestPDF.Helpers.Colors;
 
 namespace TPV_Sistema.ViewModels
 {
@@ -141,8 +142,10 @@ namespace TPV_Sistema.ViewModels
         public RelayCommand EzabatuMahaiAgindua { get; private set; }
         public RelayCommand GarbituMahaiAgindua { get; private set; }
 
-        // Eraikitzailea eta Metodoak
+        // Log Out
+        public RelayCommand IrtenAgindua { get; private set; }
 
+        // Eraikitzailea eta Metodoak
         public AdminViewModel()
         {
             Erabiltzaileak = new ObservableCollection<Erabiltzailea>();
@@ -166,6 +169,9 @@ namespace TPV_Sistema.ViewModels
             EzabatuMahaiAgindua = new RelayCommand(async (p) => await EzabatuMahaia(), (p) => HautatutakoMahaia != null);
             GarbituMahaiAgindua = new RelayCommand((p) => GarbituMahaiHautapena());
 
+            // LOG OUT
+            IrtenAgindua = new RelayCommand(Irten);
+
             // ESKAEREN HASIERAKETA
             Eskaerak = new ObservableCollection<Eskaera>();
             HautatutakoEskaerarenLerroak = new ObservableCollection<EskaeraLerroa>();
@@ -178,6 +184,15 @@ namespace TPV_Sistema.ViewModels
                 await KargatuMahaiak();
                 await KargatuEskaerak();
             });
+        }
+
+        // LOG OUT
+        private void Irten(object parameter)
+        {
+            if (parameter is Window unekoLeihoa)
+            {
+                NavigationService.BerrabiaraziAplikazioa(unekoLeihoa);
+            }
         }
 
         private async Task KargatuErabiltzaileak()

@@ -42,6 +42,12 @@
                     <Button Content="Aldatu" Command="{Binding AldatuAgindua}" Margin="0,5"/>
                     <Button Content="Ezabatu" Command="{Binding EzabatuAgindua}" Background="IndianRed" Margin="0,5"/>
                     <Button Content="Garbitu" Command="{Binding GarbituAgindua}" Margin="0,20,0,0"/>
+                    
+                    <Button Grid.Row="1" Content="Saioa Itxi" 
+                            Command="{Binding IrtenAgindua}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=Window}}" 
+                            HorizontalAlignment="Right" Margin="10" Padding="10,5"
+                            Background="CadetBlue"/>
                 </StackPanel>
             </Grid>
         </TabItem>
@@ -88,14 +94,15 @@
         <TabItem Header="Mahaien Kudeaketa">
             <Grid Margin="10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="65*"/>
+                    <ColumnDefinition Width="451*"/>
+                    <ColumnDefinition Width="258*"/>
                 </Grid.ColumnDefinitions>
 
                 <DataGrid Grid.Column="0" Margin="0,0,10,0"
                           ItemsSource="{Binding Mahaiak}"
                           SelectedItem="{Binding HautatutakoMahaia}"
-                          IsReadOnly="True" AutoGenerateColumns="False">
+                          IsReadOnly="True" AutoGenerateColumns="False" Grid.ColumnSpan="2">
                     <DataGrid.Columns>
                         <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="Auto"/>
                         <DataGridTextColumn Header="Mahai Izena" Binding="{Binding MahaiIzena}" Width="*"/>
@@ -103,7 +110,7 @@
                     </DataGrid.Columns>
                 </DataGrid>
 
-                <StackPanel Grid.Column="1">
+                <StackPanel Grid.Column="2">
                     <Label Content="Mahai Izena:"/>
                     <TextBox Text="{Binding MahaiIzena, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,0,10"/>
 

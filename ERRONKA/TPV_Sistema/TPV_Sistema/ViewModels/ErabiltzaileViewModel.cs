@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using QuestPDF.Fluent;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using QuestPDF.Fluent;
-using System.Diagnostics;
-using System.IO;
-using TPV_Sistema.Services;
 using TPV_Sistema.Models;
+using TPV_Sistema.Services;
+using static QuestPDF.Helpers.Colors;
 
 namespace TPV_Sistema.ViewModels
 {
@@ -76,6 +77,10 @@ namespace TPV_Sistema.ViewModels
         private double _bezZenbatekoa;
         public double BezZenbatekoa { get => _bezZenbatekoa; set { _bezZenbatekoa = value; OnPropertyChanged(); } }
 
+        // LOG OUT
+        public RelayCommand IrtenAgindua { get; private set; }
+
+
         public ErabiltzaileViewModel(Erabiltzailea erabiltzailea)
         {
             _logeatutakoErabiltzailea = erabiltzailea; // Gorde jasotako erabiltzailea
@@ -102,6 +107,9 @@ namespace TPV_Sistema.ViewModels
             GehituDigitoaAgindua = new RelayCommand(GehituDigitoa);
             GarbituKantitateaAgindua = new RelayCommand(GarbituKantitatea);
 
+            // LOG OUT
+            IrtenAgindua = new RelayCommand(Irten);
+
             // UnekoTicket bilduma aldatzen den bakoitzean, totalak birkalkulatu
             UnekoTicket.CollectionChanged += (s, e) => KalkulatuTotalak();
 
@@ -115,6 +123,16 @@ namespace TPV_Sistema.ViewModels
                 await KargatuNireErreserbak();
             });
             */
+        }
+
+        // LOG OUT
+        private void Irten(object parameter)
+        {
+            // Berdin hemen
+            if (parameter is Window unekoLeihoa)
+            {
+                NavigationService.BerrabiaraziAplikazioa(unekoLeihoa);
+            }
         }
 
         private void GehituDigitoa(object parameter)
