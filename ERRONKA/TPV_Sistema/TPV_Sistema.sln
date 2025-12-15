@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36429.23 d17.14
+VisualStudioVersion = 17.14.36429.23
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPV_Sistema", "TPV_Sistema\TPV_Sistema.csproj", "{ECD1A58D-DBCB-4188-9B08-789939B0F14E}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TPV_Instalatzailea", "TPV_Instalatzailea\TPV_Instalatzailea.vdproj", "{9748C7C8-406A-3685-2416-87CBA5B216DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,8 @@ Global
 		{ECD1A58D-DBCB-4188-9B08-789939B0F14E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECD1A58D-DBCB-4188-9B08-789939B0F14E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECD1A58D-DBCB-4188-9B08-789939B0F14E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9748C7C8-406A-3685-2416-87CBA5B216DD}.Debug|Any CPU.ActiveCfg = Debug
+		{9748C7C8-406A-3685-2416-87CBA5B216DD}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
