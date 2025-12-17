@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_2C5105FDC8D34EAA9CB220B93D551AF4"
+        "MsmKey" = "8:_618BC0563A904674A429C438CF7F40E3"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_DB30F1BF1D0D498986C693F8BADFF6B7"
+        "MsmKey" = "8:_BECF4031769649D580CA1478E3B76190"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -43,6 +43,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
         "Release"
         {
@@ -59,6 +75,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -76,6 +108,14 @@
         {
             "LaunchCondition"
             {
+                "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_94AD2C3D6C234B77869681A36E140834"
+                {
+                "Name" = "8:.NET Framework"
+                "Message" = "8:[VSDNETMSG]"
+                "FrameworkVersion" = "8:.NETFramework,Version=v4.7.2"
+                "AllowLaterVersions" = "11:FALSE"
+                "InstallUrl" = "8:http://go.microsoft.com/fwlink/?LinkId=863262"
+                }
                 "{A06ECF26-33A3-4562-8140-9B0E340D4F24}:_F2C7B762CE61436FBD11D71ED9AAEA47"
                 {
                 "Name" = "8:.NET Core"
@@ -90,7 +130,7 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_2C5105FDC8D34EAA9CB220B93D551AF4"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_618BC0563A904674A429C438CF7F40E3"
             {
             "SourcePath" = "8:..\\TPV_Sistema\\bin\\Debug\\net8.0-windows\\elkartea.db"
             "TargetName" = "8:elkartea.db"
@@ -126,6 +166,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_8C5DE40B0E994C9D96AB673BEE49F973"
+                    {
+                    "Name" = "8:Tickets"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_BF13930CE146400CB5807AC734F15482"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_8D769F1C1621489BB2D8E7807A7A2626"
@@ -167,7 +218,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TPV_Instalatzailea"
         "ProductCode" = "8:{563E4092-FD6D-4631-AC1F-CF1EF8B47509}"
-        "PackageCode" = "8:{41FF24A3-6EA5-4D5E-8E1E-1E482BB7DFA8}"
+        "PackageCode" = "8:{CBE4806C-833C-40D6-A9E7-58E47044E65D}"
         "UpgradeCode" = "8:{2D9969D5-B408-4739-AA77-CE7095A9CE7D}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
@@ -714,9 +765,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_DB30F1BF1D0D498986C693F8BADFF6B7"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_BECF4031769649D580CA1478E3B76190"
             {
-            "SourcePath" = "8:..\\TPV_Sistema\\obj\\Debug\\net8.0-windows\\TPV_Sistema.dll"
+            "SourcePath" = "8:..\\TPV_Sistema\\obj\\Release\\net8.0-windows\\TPV_Sistema.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_1AA547A0AD714CE9B8C5DBA8A09E0549"
